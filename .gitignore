@@ -1,5 +1,13 @@
 # Compiled class file
 *.class
+target/
+
+.classpath
+org.eclipse*
+.project
+
+# OpenLiberty specific
+server.xml
 
 # Log file
 *.log
