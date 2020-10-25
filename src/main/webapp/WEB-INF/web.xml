@@ -1,7 +1,26 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <description>REST API for the Auth Database of Mangos Zero</description>
+    <resource-ref>
+        <description>Auth DB Connection</description>
+        <res-ref-name>jdbc/AuthDBDS</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 
-<web-app>
-  <display-name>Rest API for the Auth Database of Mangos Zero</display-name>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>
