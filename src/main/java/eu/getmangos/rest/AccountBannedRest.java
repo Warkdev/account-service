@@ -53,7 +53,7 @@ public class AccountBannedRest {
     @Operation(summary = "Retrieves a ban given the id",
         description = "This API is retrieving the ban with the given id/bandate from the database.",
         responses = {
-            @ApiResponse(responseCode = "200", description = "The account", content = @Content(
+            @ApiResponse(responseCode = "200", description = "The ban", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
@@ -150,7 +150,7 @@ public class AccountBannedRest {
         } catch (Exception ex) {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
-        return Response.status(200).entity("Account has been updated.").build();
+        return Response.status(200).entity("Ban has been updated.").build();
     }
 
     @DELETE
