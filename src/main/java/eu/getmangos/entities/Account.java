@@ -1,23 +1,25 @@
 package eu.getmangos.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-@Entity(name="Account")
+@Entity
 @Table(
     name="account",
     uniqueConstraints = {
@@ -26,13 +28,19 @@ import javax.validation.constraints.NotNull;
     }
 )
 
-@Access(AccessType.FIELD)
+@NamedQueries({
+    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
+    @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a where a.id = :id")
+})
 /**
  * This class represent an entity Account from the Realm Database.
  */
-public class Account {
+public class Account implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name="username", length=32)
@@ -92,9 +100,10 @@ public class Account {
     private Expansion expansion;
 
     @Column(name="mutetime")
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date mutetime;
+    //private Date mutetime;
+    private Long mutetime;
 
     @Column(name="locale")
     @Enumerated(EnumType.ORDINAL)
@@ -230,11 +239,11 @@ public class Account {
     }
 
     public Date getMutetime() {
-        return mutetime;
+        return new Date(mutetime);
     }
 
     public void setMutetime(Date mutetime) {
-        this.mutetime = mutetime;
+        this.mutetime = mutetime.getTime();
     }
 
     public Locale getLocale() {
