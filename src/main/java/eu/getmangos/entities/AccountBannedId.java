@@ -15,6 +15,10 @@ public class AccountBannedId implements Serializable {
     private int id;
     private long banDate;
 
+    public AccountBannedId() {
+
+    }
+
     public AccountBannedId(int id, long banDate) {
         this.id = id;
         this.banDate = banDate;
