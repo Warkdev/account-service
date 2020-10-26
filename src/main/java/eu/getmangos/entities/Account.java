@@ -30,7 +30,8 @@ import javax.validation.constraints.NotNull;
 
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
-    @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a where a.id = :id")
+    @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a where a.id = :id"),
+    @NamedQuery(name = "Account.findByName", query = "SELECT a FROM Account a where a.username = :name")
 })
 /**
  * This class represent an entity Account from the Realm Database.
