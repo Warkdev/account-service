@@ -19,8 +19,8 @@ import javax.validation.constraints.NotNull;
 
 @NamedQueries({
     @NamedQuery(name = "AccountBanned.findAll", query = "SELECT a FROM AccountBanned a"),
-    @NamedQuery(name = "AccountBanned.findById", query = "SELECT a FROM Account a WHERE a.accountBannedId = :id"),
-    @NamedQuery(name = "AccountBanned.findByAccount", query = "SELECT a FROM Account a WHERE a.accountBannedId.id = :id")
+    @NamedQuery(name = "AccountBanned.findById", query = "SELECT a FROM AccountBanned a WHERE a.accountBannedId = :id"),
+    @NamedQuery(name = "AccountBanned.findByAccount", query = "SELECT a FROM AccountBanned a WHERE a.accountBannedId.id = :id")
 })
 public class AccountBanned implements Serializable {
     private static final long serialVersionUID = 1L;
