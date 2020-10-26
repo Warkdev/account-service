@@ -17,13 +17,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>13</maven.compiler.source>
 	<maven.compiler.target>13</maven.compiler.target>
+	<!-- MariaDB Library -->
+	<version.mariadb>2.7.0</version.mariadb>
+	<mariadb.path>C:/Users/Cedri/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
 	<!-- Liberty configuration -->
-	<!-- tag::defaultHttpPort[] -->
 	<liberty.var.default.http.port>9081</liberty.var.default.http.port>
-	<!-- end::defaultHttpPort[] -->
-	<!-- tag::appContextRoot[] -->
 	<liberty.var.app.context.root>api</liberty.var.app.context.root>
-	<!-- end::appContextRoot[] -->
+	<liberty.var.mariadb.lib>${mariadb.path}/${version.mariadb}/mariadb-java-client-${version.mariadb}.jar</liberty.var.mariadb.lib>
   </properties>
 
   <dependencies>
@@ -31,8 +31,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>2.5.1</version>
-			<!--<scope>provided</scope>-->
+			<version>${version.mariadb}</version>
 		</dependency>
 		<!-- Logging dependencies -->
 		<dependency>
@@ -45,7 +44,7 @@
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-jaxrs2</artifactId>
-			<version>2.0.10</version>
+			<version>2.1.5</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -53,7 +52,7 @@
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.6</version>
+			<version>1.7</version>
 		</dependency>
 
 		<!-- Runtime dependencies -->
@@ -67,7 +66,7 @@
 		<dependency>
 			<groupId>io.openliberty</groupId>
 			<artifactId>openliberty-runtime</artifactId>
-			<version>20.0.0.6</version>
+			<version>20.0.0.11</version>
 			<type>zip</type>
 		</dependency>
 
@@ -89,6 +88,24 @@
 					<serverName>mangos-zero-auth-db</serverName>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-mariadb-dependency</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>mariadb-java-client</includeArtifactIds>
+                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>
