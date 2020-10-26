@@ -36,9 +36,9 @@ public class AccountBanned implements Serializable {
     @NotNull
     private String bannedBy;
 
-    @Column(name="bannedreason")
+    @Column(name="banreason")
     @NotNull
-    private String bannedReason;
+    private String banReason;
 
     @Column(name="active")
     @Basic(optional = false)
@@ -69,12 +69,12 @@ public class AccountBanned implements Serializable {
         this.bannedBy = bannedBy;
     }
 
-    public String getBannedReason() {
-        return bannedReason;
+    public String getBanReason() {
+        return banReason;
     }
 
-    public void setBannedReason(String bannedReason) {
-        this.bannedReason = bannedReason;
+    public void setBanReason(String banReason) {
+        this.banReason = banReason;
     }
 
     public boolean isActive() {
