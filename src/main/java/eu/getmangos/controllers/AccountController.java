@@ -69,6 +69,11 @@ public class AccountController {
     }
 
     @Transactional
+    /**
+     * Delete an account in the database.
+     * @param id The ID of the account to be deleted.
+     * @throws DAOException Send a DAOException if something happened during the data validation.
+     */
     public void delete(Integer id) throws DAOException {
         logger.debug("delete() entry.");
 
