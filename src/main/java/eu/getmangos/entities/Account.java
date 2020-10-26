@@ -101,9 +101,7 @@ public class Account implements Serializable{
     private Expansion expansion;
 
     @Column(name="mutetime")
-    //@Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    //private Date mutetime;
     private Long mutetime;
 
     @Column(name="locale")
