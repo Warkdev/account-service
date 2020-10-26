@@ -123,6 +123,7 @@ public class AccountController {
      * Retrieves all accounts from the database.
      * @return A list of Account.
      */
+    @SuppressWarnings("unchecked")
     public List<Account> findAll() {
         return (List<Account>) em.createNamedQuery("Account.findAll").getResultList();
     }
