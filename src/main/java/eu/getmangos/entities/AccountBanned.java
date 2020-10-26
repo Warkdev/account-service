@@ -12,9 +12,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 @Entity
 @Table(
     name="account_banned"
@@ -25,7 +22,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
     @NamedQuery(name = "AccountBanned.findById", query = "SELECT a FROM AccountBanned a WHERE a.accountBannedId = :id"),
     @NamedQuery(name = "AccountBanned.findByAccount", query = "SELECT a FROM AccountBanned a WHERE a.accountBannedId.id = :id")
 })
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="accountBannedId")
 public class AccountBanned implements Serializable {
     private static final long serialVersionUID = 1L;
 
