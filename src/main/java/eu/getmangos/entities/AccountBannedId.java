@@ -35,4 +35,29 @@ public class AccountBannedId implements Serializable {
     public void setBanDate(Date banDate) {
         this.banDate = banDate.getTime();
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (banDate ^ (banDate >>> 32));
+        result = prime * result + id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AccountBannedId other = (AccountBannedId) obj;
+        if (banDate != other.banDate)
+            return false;
+        if (id != other.id)
+            return false;
+        return true;
+    }
 }
