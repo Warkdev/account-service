@@ -27,7 +27,7 @@ public class DbVersion implements Serializable {
     @Column(name="description", length = 30)
     private String description;
 
-    @Column(name="description", length = 150)
+    @Column(name="comment", length = 150)
     private String comment;
 
     public DbVersionId getId() {
