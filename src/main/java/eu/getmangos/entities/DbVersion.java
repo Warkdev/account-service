@@ -7,9 +7,13 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(
+    name="db_version"
+)
 @NamedQueries({
     @NamedQuery(name = "DbVersion.findAll", query="SELECT d from DbVersion d")
 })
