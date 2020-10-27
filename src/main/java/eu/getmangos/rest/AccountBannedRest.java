@@ -21,13 +21,17 @@ import eu.getmangos.controllers.AccountBannedController;
 import eu.getmangos.controllers.DAOException;
 import eu.getmangos.entities.AccountBanned;
 import eu.getmangos.entities.AccountBannedId;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.info.License;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 @Stateless
 @Path("/ban/v1")
@@ -51,16 +55,18 @@ public class AccountBannedRest {
     @Path("{id}/{bandate}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Retrieves a ban given the id",
-        description = "This API is retrieving the ban with the given id/bandate from the database.",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "The ban", content = @Content(
+        description = "This API is retrieving the ban with the given id/bandate from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The ban", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "404", description = "Ban not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected event occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
     public Response find(@PathParam("id") Integer id, @PathParam("bandate") long banDate) {
@@ -83,15 +89,17 @@ public class AccountBannedRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Retrieves all bans",
-        description = "This API is retrieving all bans from the database.",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "A list of bans", content = @Content(
+        description = "This API is retrieving all bans from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "A list of bans", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public List<AccountBanned> findAll() {
@@ -105,15 +113,17 @@ public class AccountBannedRest {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Create a new ban",
-        description = "This API is creating a new ban based on the provided input.",
-        responses = {
-            @ApiResponse(responseCode = "201", description = "The ban has been created", content = @Content(
+        description = "This API is creating a new ban based on the provided input."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "201", description = "The ban has been created", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public Response add(AccountBanned entity) {
@@ -131,16 +141,18 @@ public class AccountBannedRest {
     @Path("{id}/{bandate}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Edit a ban",
-        description = "This API is updating an existing ban based on the provided input.",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "The ban has been updated", content = @Content(
+        description = "This API is updating an existing ban based on the provided input."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The ban has been updated", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "404", description = "Ban not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public Response edit(@PathParam("id") Integer id, @PathParam("bandate") long banDate, AccountBanned entity) {
@@ -159,16 +171,18 @@ public class AccountBannedRest {
     @Path("{id}/{bandate}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Delete a ban",
-        description = "This API is deleting an existing ban based on the provided id.",
-        responses = {
-            @ApiResponse(responseCode = "204", description = "The ban has been deleted", content = @Content(
+        description = "This API is deleting an existing ban based on the provided id."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "204", description = "The ban has been deleted", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "404", description = "Ban not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public Response delete(@PathParam("id") Integer id, @PathParam("bandate") long banDate) {

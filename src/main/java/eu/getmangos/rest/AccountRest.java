@@ -15,18 +15,21 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.info.License;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.slf4j.Logger;
 
 import eu.getmangos.controllers.AccountController;
 import eu.getmangos.controllers.DAOException;
 import eu.getmangos.entities.Account;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Stateless
 @Path("/account/v1")
@@ -50,16 +53,18 @@ public class AccountRest {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Retrieves an account given the id",
-        description = "This API is retrieving the account with the given from the database.",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "The account", content = @Content(
+        description = "This API is retrieving the account with the given from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The account", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=Account.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "404", description = "Account not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected event occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Account not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
     public Response find(@PathParam("id") Integer id) {
@@ -82,15 +87,17 @@ public class AccountRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Retrieves all accounts",
-        description = "This API is retrieving all accounts from the database.",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "A list of accounts", content = @Content(
+        description = "This API is retrieving all accounts from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "A list of accounts", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=Account.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public List<Account> findAll() {
@@ -105,14 +112,16 @@ public class AccountRest {
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Create a new account",
         description = "This API is creating a new account based on the provided input.",
-        responses = {
-            @ApiResponse(responseCode = "201", description = "The account has been created", content = @Content(
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "201", description = "The account has been created", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=Account.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public Response add(Account entity) {
@@ -130,16 +139,18 @@ public class AccountRest {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Edit an account",
-        description = "This API is updating an existing account based on the provided input.",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "The account has been updated", content = @Content(
+        description = "This API is updating an existing account based on the provided input."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The account has been updated", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=Account.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "404", description = "Account not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Account not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public Response edit(@PathParam("id") Integer id, Account entity) {
@@ -158,16 +169,18 @@ public class AccountRest {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Delete an account",
-        description = "This API is deleting an existing account based on the provided id.",
-        responses = {
-            @ApiResponse(responseCode = "204", description = "The account has been deleted", content = @Content(
+        description = "This API is deleting an existing account based on the provided id."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "204", description = "The account has been deleted", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=Account.class)
                 )
-        ),
-            @ApiResponse(responseCode = "400", description = "Error with the request"),
-            @ApiResponse(responseCode = "404", description = "Account not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected even occured")
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Account not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
     public Response delete(@PathParam("id") Integer id) {
