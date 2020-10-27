@@ -2,7 +2,7 @@ package eu.getmangos.rest;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -31,7 +31,7 @@ import eu.getmangos.controllers.AccountController;
 import eu.getmangos.controllers.DAOException;
 import eu.getmangos.entities.Account;
 
-@Stateless
+@RequestScoped
 @Path("/account/v1")
 @OpenAPIDefinition(
     info = @Info(
@@ -67,7 +67,7 @@ public class AccountRest {
             @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
-    public Response find(@PathParam("id") Integer id) {
+    public Response findAccount(@PathParam("id") Integer id) {
         logger.debug("find() entry.");
 
         if (id == null) {
@@ -100,7 +100,7 @@ public class AccountRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public List<Account> findAll() {
+    public List<Account> findAllAccounts() {
         logger.debug("findAll() entry.");
         List<Account> listAccounts = this.accountController.findAll();
 
@@ -111,7 +111,7 @@ public class AccountRest {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Create a new account",
-        description = "This API is creating a new account based on the provided input.",
+        description = "This API is creating a new account based on the provided input."
     )
     @APIResponses(
         value = {
@@ -124,7 +124,7 @@ public class AccountRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public Response add(Account entity) {
+    public Response addAccount(Account entity) {
         try {
                 this.accountController.create(entity);
         } catch (DAOException daoEx) {
@@ -153,7 +153,7 @@ public class AccountRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public Response edit(@PathParam("id") Integer id, Account entity) {
+    public Response editAccount(@PathParam("id") Integer id, Account entity) {
         try {
                 entity.setId(id);
                 this.accountController.update(entity);
@@ -183,7 +183,7 @@ public class AccountRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public Response delete(@PathParam("id") Integer id) {
+    public Response deleteAccount(@PathParam("id") Integer id) {
         try {
                 this.accountController.delete(id);
         } catch (DAOException daoEx) {
