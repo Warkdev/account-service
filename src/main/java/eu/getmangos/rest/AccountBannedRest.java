@@ -2,7 +2,7 @@ package eu.getmangos.rest;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -24,16 +24,14 @@ import eu.getmangos.entities.AccountBannedId;
 
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
 import org.eclipse.microprofile.openapi.annotations.info.License;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
-@Stateless
+@RequestScoped
 @Path("/ban/v1")
 @OpenAPIDefinition(
     info = @Info(
@@ -69,7 +67,7 @@ public class AccountBannedRest {
             @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
-    public Response find(@PathParam("id") Integer id, @PathParam("bandate") long banDate) {
+    public Response findBan(@PathParam("id") Integer id, @PathParam("bandate") long banDate) {
         logger.debug("find() entry.");
 
         if (id == null) {
@@ -102,7 +100,7 @@ public class AccountBannedRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public List<AccountBanned> findAll() {
+    public List<AccountBanned> findAllBans() {
         logger.debug("findAll() entry.");
         List<AccountBanned> listAccounts = this.accountBannedController.findAll();
 
@@ -126,7 +124,7 @@ public class AccountBannedRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public Response add(AccountBanned entity) {
+    public Response addBan(AccountBanned entity) {
         try {
                 this.accountBannedController.create(entity);
         } catch (DAOException daoEx) {
@@ -155,7 +153,7 @@ public class AccountBannedRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public Response edit(@PathParam("id") Integer id, @PathParam("bandate") long banDate, AccountBanned entity) {
+    public Response editBan(@PathParam("id") Integer id, @PathParam("bandate") long banDate, AccountBanned entity) {
         try {
                 entity.setAccountBannedId(new AccountBannedId(id, banDate));
                 this.accountBannedController.update(entity);
@@ -185,7 +183,7 @@ public class AccountBannedRest {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public Response delete(@PathParam("id") Integer id, @PathParam("bandate") long banDate) {
+    public Response deleteBan(@PathParam("id") Integer id, @PathParam("bandate") long banDate) {
         try {
                 this.accountBannedController.delete(new AccountBannedId(id, banDate));
         } catch (DAOException daoEx) {
