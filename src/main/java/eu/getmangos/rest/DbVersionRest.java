@@ -26,7 +26,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.slf4j.Logger;
 
 import eu.getmangos.controllers.DbVersionController;
-import eu.getmangos.controllers.DAOException;
 import eu.getmangos.entities.DbVersion;
 
 @RequestScoped
