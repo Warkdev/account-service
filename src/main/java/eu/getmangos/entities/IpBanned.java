@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "IpBanned.findAll", query = "SELECT i FROM IpBanned i"),
     @NamedQuery(name = "IpBanned.findById", query = "SELECT i FROM IpBanned i WHERE i.IpBanned = :id"),
-    @NamedQuery(name = "IpBanned.findByIp", query = "SELECT i FROM IpBanned i WHERE i.IpBanned.ip = :id")
+    @NamedQuery(name = "IpBanned.findByIp", query = "SELECT i FROM IpBanned i WHERE i.IpBanned.ip = :ip")
 })
 public class IpBanned implements Serializable {
 
