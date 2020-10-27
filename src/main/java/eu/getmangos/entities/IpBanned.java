@@ -3,7 +3,6 @@ package eu.getmangos.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
