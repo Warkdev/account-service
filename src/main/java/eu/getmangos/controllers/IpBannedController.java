@@ -114,7 +114,7 @@ public class IpBannedController {
      * @return A list of Bans.
      */
     @SuppressWarnings("unchecked")
-    public List<IpBannedId> findAll() {
-        return (List<IpBannedId>) em.createNamedQuery("AccountBanned.findAll").getResultList();
+    public List<IpBanned> findAll() {
+        return (List<IpBanned>) em.createNamedQuery("IpBanned.findAll").getResultList();
     }
 }

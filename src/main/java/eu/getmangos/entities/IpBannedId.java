@@ -15,6 +15,11 @@ public class IpBannedId implements Serializable {
     public IpBannedId(){
     }
 
+    public IpBannedId(String ip, long banDate) {
+        this.ip = ip;
+        this.banDate = banDate;
+    }
+
     public String getIp() {
         return ip;
     }

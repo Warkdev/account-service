@@ -3,6 +3,7 @@ package eu.getmangos.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -18,8 +19,8 @@ import javax.validation.constraints.NotNull;
 
 @NamedQueries({
     @NamedQuery(name = "IpBanned.findAll", query = "SELECT i FROM IpBanned i"),
-    @NamedQuery(name = "IpBanned.findById", query = "SELECT i FROM IpBanned i WHERE i.IpBanned = :id"),
-    @NamedQuery(name = "IpBanned.findByIp", query = "SELECT i FROM IpBanned i WHERE i.IpBanned.ip = :ip")
+    @NamedQuery(name = "IpBanned.findById", query = "SELECT i FROM IpBanned i WHERE i.id = :id"),
+    @NamedQuery(name = "IpBanned.findByIp", query = "SELECT i FROM IpBanned i WHERE i.id.ip = :ip")
 })
 public class IpBanned implements Serializable {
 
