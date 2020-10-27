@@ -58,6 +58,7 @@ public class AccountRest {
                 )
         ),
             @ApiResponse(responseCode = "400", description = "Error with the request"),
+            @ApiResponse(responseCode = "404", description = "Account not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
@@ -71,7 +72,7 @@ public class AccountRest {
         Account account = this.accountController.find(id);
 
         if(account == null) {
-                return Response.status(400).entity("The provided ID has no match in the database.").build();
+                return Response.status(404).entity("The provided ID has no match in the database.").build();
         }
 
         logger.debug("find() exit.");
@@ -105,7 +106,7 @@ public class AccountRest {
     @Operation(summary = "Create a new account",
         description = "This API is creating a new account based on the provided input.",
         responses = {
-            @ApiResponse(responseCode = "200", description = "The account has been created", content = @Content(
+            @ApiResponse(responseCode = "201", description = "The account has been created", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=Account.class)
                 )
@@ -122,7 +123,7 @@ public class AccountRest {
         } catch (Exception ex) {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
-        return Response.status(200).entity("Account has been created.").build();
+        return Response.status(201).entity("Account has been created.").build();
     }
 
     @PUT
@@ -137,6 +138,7 @@ public class AccountRest {
                 )
         ),
             @ApiResponse(responseCode = "400", description = "Error with the request"),
+            @ApiResponse(responseCode = "404", description = "Account not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
@@ -145,7 +147,7 @@ public class AccountRest {
                 entity.setId(id);
                 this.accountController.update(entity);
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(daoEx.getMessage()).build();
         } catch (Exception ex) {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
@@ -158,12 +160,13 @@ public class AccountRest {
     @Operation(summary = "Delete an account",
         description = "This API is deleting an existing account based on the provided id.",
         responses = {
-            @ApiResponse(responseCode = "200", description = "The account has been deleted", content = @Content(
+            @ApiResponse(responseCode = "204", description = "The account has been deleted", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=Account.class)
                 )
         ),
             @ApiResponse(responseCode = "400", description = "Error with the request"),
+            @ApiResponse(responseCode = "404", description = "Account not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
@@ -171,11 +174,11 @@ public class AccountRest {
         try {
                 this.accountController.delete(id);
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(daoEx.getMessage()).build();
         } catch (Exception ex) {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
-        return Response.status(200).entity("Account has been deleted.").build();
+        return Response.status(204).build();
     }
 
 }

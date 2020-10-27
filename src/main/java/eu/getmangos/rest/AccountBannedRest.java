@@ -59,6 +59,7 @@ public class AccountBannedRest {
                 )
         ),
             @ApiResponse(responseCode = "400", description = "Error with the request"),
+            @ApiResponse(responseCode = "404", description = "Ban not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
@@ -72,7 +73,7 @@ public class AccountBannedRest {
         AccountBanned accountBanned = this.accountBannedController.find(new AccountBannedId(id, banDate));
 
         if(accountBanned == null) {
-                return Response.status(400).entity("The provided ID has no match in the database.").build();
+                return Response.status(404).entity("The provided ID has no match in the database.").build();
         }
 
         logger.debug("find() exit.");
@@ -106,7 +107,7 @@ public class AccountBannedRest {
     @Operation(summary = "Create a new ban",
         description = "This API is creating a new ban based on the provided input.",
         responses = {
-            @ApiResponse(responseCode = "200", description = "The ban has been created", content = @Content(
+            @ApiResponse(responseCode = "201", description = "The ban has been created", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
@@ -123,7 +124,7 @@ public class AccountBannedRest {
         } catch (Exception ex) {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
-        return Response.status(200).entity("Ban has been created.").build();
+        return Response.status(201).entity("Ban has been created.").build();
     }
 
     @PUT
@@ -138,6 +139,7 @@ public class AccountBannedRest {
                 )
         ),
             @ApiResponse(responseCode = "400", description = "Error with the request"),
+            @ApiResponse(responseCode = "404", description = "Ban not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
@@ -146,7 +148,7 @@ public class AccountBannedRest {
                 entity.setAccountBannedId(new AccountBannedId(id, banDate));
                 this.accountBannedController.update(entity);
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(daoEx.getMessage()).build();
         } catch (Exception ex) {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
@@ -159,12 +161,13 @@ public class AccountBannedRest {
     @Operation(summary = "Delete a ban",
         description = "This API is deleting an existing ban based on the provided id.",
         responses = {
-            @ApiResponse(responseCode = "200", description = "The ban has been deleted", content = @Content(
+            @ApiResponse(responseCode = "204", description = "The ban has been deleted", content = @Content(
                         mediaType = "application/json",
                         schema = @Schema(implementation=AccountBanned.class)
                 )
         ),
             @ApiResponse(responseCode = "400", description = "Error with the request"),
+            @ApiResponse(responseCode = "404", description = "Ban not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
@@ -172,11 +175,11 @@ public class AccountBannedRest {
         try {
                 this.accountBannedController.delete(new AccountBannedId(id, banDate));
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(daoEx.getMessage()).build();
         } catch (Exception ex) {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
-        return Response.status(200).entity("Ban has been deleted.").build();
+        return Response.status(204).build();
     }
 
 }
