@@ -36,6 +36,10 @@ public class RealmCharactersController {
             logger.debug("create() exit.");
             throw new DAOException("Account doesn't exist.");
         }
+        if(find(link.getId()) != null) {
+            logger.debug("create() exit.");
+            throw new DAOException("Link already exist.");
+        }
         em.persist(link);
         logger.debug("create() exit.");
     }
