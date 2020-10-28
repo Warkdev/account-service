@@ -18,6 +18,11 @@ public class RealmCharactersID implements Serializable {
 
     }
 
+    public RealmCharactersID(int realmID, int accountID) {
+        this.realmID = realmID;
+        this.accountID = accountID;
+    }
+
     public int getRealmID() {
         return realmID;
     }
