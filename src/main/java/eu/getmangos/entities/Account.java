@@ -54,7 +54,7 @@ public class Account implements Serializable{
 
     @Column(name="gmlevel")
     @NotNull
-    private short gmLevel;
+    private SecurityLevel gmLevel;
 
     @Column(name="sessionkey")
     private String sessionKey;
@@ -141,11 +141,11 @@ public class Account implements Serializable{
         this.shaPassHash = shaPassHash;
     }
 
-    public short getGmLevel() {
+    public SecurityLevel getGmLevel() {
         return gmLevel;
     }
 
-    public void setGmLevel(short gmLevel) {
+    public void setGmLevel(SecurityLevel gmLevel) {
         this.gmLevel = gmLevel;
     }
 
