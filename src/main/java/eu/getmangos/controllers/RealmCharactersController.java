@@ -103,7 +103,7 @@ public class RealmCharactersController {
     @SuppressWarnings("unchecked")
     public List<RealmCharacters> findByRealm(Integer realmId) {
         logger.debug("findByRealm() entry.");
-        List<RealmCharacters> linkList = (List<RealmCharacters>) em.createNamedQuery("RealmCharacters.findByRealm").setParameter("id", realmId).getResultList();
+        List<RealmCharacters> linkList = (List<RealmCharacters>) em.createNamedQuery("RealmCharacters.findByRealm").setParameter("realmID", realmId).getResultList();
         logger.debug("findByRealm() exit.");
         return linkList;
     }
@@ -116,7 +116,7 @@ public class RealmCharactersController {
     @SuppressWarnings("unchecked")
     public List<RealmCharacters> findByAccount(Integer accountId) {
         logger.debug("findByAccount() entry.");
-        List<RealmCharacters> linkList = (List<RealmCharacters>) em.createNamedQuery("RealmCharacters.findByAccount").setParameter("id", accountId).getResultList();
+        List<RealmCharacters> linkList = (List<RealmCharacters>) em.createNamedQuery("RealmCharacters.findByAccount").setParameter("accountID", accountId).getResultList();
         logger.debug("findByAccount() exit.");
         return linkList;
     }
