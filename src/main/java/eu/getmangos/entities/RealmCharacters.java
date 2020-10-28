@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "realmcharacters")
 @NamedQueries({
     @NamedQuery(name = "RealmCharacters.findAll", query = "SELECT rc FROM RealmCharacters rc"),
-    @NamedQuery(name = "RealmCharacters.findById", query = "SELECT rc FROM RealmCharacters a where a.id = :id"),
-    @NamedQuery(name = "RealmCharacters.findByRealm", query = "SELECT rc FROM RealmCharacters a where a.id.realmID = :realmID"),
-    @NamedQuery(name = "RealmCharacters.findByAccount", query = "SELECT rc FROM RealmCharacters a where a.id.accountID = :accountID")
+    @NamedQuery(name = "RealmCharacters.findById", query = "SELECT rc FROM RealmCharacters rc where rc.id = :id"),
+    @NamedQuery(name = "RealmCharacters.findByRealm", query = "SELECT rc FROM RealmCharacters rc where rc.id.realmID = :realmID"),
+    @NamedQuery(name = "RealmCharacters.findByAccount", query = "SELECT rc FROM RealmCharacters rc where rc.id.accountID = :accountID")
 })
 public class RealmCharacters implements Serializable {
 
