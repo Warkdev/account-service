@@ -15,10 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.info.Info;
-import org.eclipse.microprofile.openapi.annotations.info.License;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -31,16 +28,6 @@ import eu.getmangos.entities.Account;
 
 @RequestScoped
 @Path("/account/v1")
-@OpenAPIDefinition(
-    info = @Info(
-            title = "Account API",
-            version = "1.0",
-            description = "Account API is used to retrieve account information",
-            license = @License(
-                    name = "Apache 2.0"
-            )
-    )
-)
 public class AccountRest {
 
     @Inject private Logger logger;

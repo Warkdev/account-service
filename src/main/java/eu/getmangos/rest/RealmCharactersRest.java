@@ -15,10 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.info.Info;
-import org.eclipse.microprofile.openapi.annotations.info.License;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -32,16 +29,6 @@ import eu.getmangos.entities.RealmCharactersID;
 
 @RequestScoped
 @Path("/account_realms/v1")
-@OpenAPIDefinition(
-    info = @Info(
-            title = "Account Realms Link API",
-            version = "1.0",
-            description = "Account Realms Link is used to retrieve realm characters information",
-            license = @License(
-                    name = "Apache 2.0"
-            )
-    )
-)
 public class RealmCharactersRest {
 
     @Inject private Logger logger;

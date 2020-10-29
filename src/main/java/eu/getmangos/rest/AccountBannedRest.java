@@ -22,10 +22,7 @@ import eu.getmangos.controllers.DAOException;
 import eu.getmangos.entities.AccountBanned;
 import eu.getmangos.entities.AccountBannedId;
 
-import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.info.Info;
-import org.eclipse.microprofile.openapi.annotations.info.License;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -33,16 +30,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 @RequestScoped
 @Path("/ban/v1")
-@OpenAPIDefinition(
-    info = @Info(
-            title = "Bans API",
-            version = "1.0",
-            description = "Bans API is used to retrieve Bans information",
-            license = @License(
-                    name = "Apache 2.0"
-            )
-    )
-)
 public class AccountBannedRest {
 
     @Inject private Logger logger;

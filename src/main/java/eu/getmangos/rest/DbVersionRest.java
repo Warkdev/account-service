@@ -7,10 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.info.Info;
-import org.eclipse.microprofile.openapi.annotations.info.License;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -22,16 +19,6 @@ import eu.getmangos.entities.DbVersion;
 
 @RequestScoped
 @Path("/version/v1")
-@OpenAPIDefinition(
-    info = @Info(
-            title = "Version API",
-            version = "1.0",
-            description = "Version API is used to retrieve database version information",
-            license = @License(
-                    name = "Apache 2.0"
-            )
-    )
-)
 public class DbVersionRest {
 
     @Inject private Logger logger;
