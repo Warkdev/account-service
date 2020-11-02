@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>getmangos.eu</groupId>
-  <artifactId>zeroAuthDB</artifactId>
-  <version>0.1</version>
+  <groupId>eu.getmangos</groupId>
+  <artifactId>auth-service</artifactId>
+  <version>1.0</version>
   <packaging>war</packaging>
 
-  <name>Zero Auth DB</name>
+  <name>auth-service</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://localhost:9080/auth_db</url>
+  <url>http://localhost:9081</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>13</maven.compiler.source>
     <maven.compiler.target>13</maven.compiler.target>
+    <!-- MapStruct -->
+    <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+    <!-- MariaDB Library -->
+	<version.mariadb>2.7.0</version.mariadb>
+	<mariadb.path>C:/Users/Cedri/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
+	<!-- Liberty configuration -->
+	<liberty.var.default.http.port>9081</liberty.var.default.http.port>
+	<liberty.var.app.context.root>api</liberty.var.app.context.root>
+	<liberty.var.mariadb.lib>${mariadb.path}/${version.mariadb}/mariadb-java-client-${version.mariadb}.jar</liberty.var.mariadb.lib>
   </properties>
 
   <dependencies>
-		<!-- Database dependencies -->
+    <!-- Test dependency -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+        <!-- Database dependencies -->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>2.5.1</version>
-			<!--<scope>provided</scope>-->
+            <version>${version.mariadb}</version>
+            <scope>provided</scope>
 		</dependency>
 		<!-- Logging dependencies -->
 		<dependency>
@@ -35,47 +49,139 @@
 		</dependency>
 
 		<!-- Rest API dependencies -->
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-jaxrs2</artifactId>
-			<version>2.0.10</version>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>3.3</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Mapper Dependency -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
 
 		<!-- Commons -->
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.6</version>
+			<version>1.7</version>
 		</dependency>
 
 		<!-- Runtime dependencies -->
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-web-api</artifactId>
-			<version>8.0.1</version>
-			<scope>provided</scope>
-		</dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>8.0.0</version>
+            <scope>provided</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>io.openliberty</groupId>
 			<artifactId>openliberty-runtime</artifactId>
-			<version>20.0.0.6</version>
+			<version>20.0.0.11</version>
 			<type>zip</type>
 		</dependency>
-	</dependencies>
 
-	<build>
-		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>io.openliberty.tools</groupId>
-				<artifactId>liberty-maven-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<serverName>mangos-zero-auth-db</serverName>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+   <dependency>
+     <groupId>javax</groupId>
+     <artifactId>javaee-api</artifactId>
+     <version>8.0.1</version>
+     <scope>provided</scope>
+   </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.mapstruct</groupId>
+                        <artifactId>mapstruct-processor</artifactId>
+                        <version>${org.mapstruct.version}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>io.openliberty.tools</groupId>
+            <artifactId>liberty-maven-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <serverName>auth-service</serverName>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+                <execution>
+                    <id>copy-mariadb-dependency</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <includeArtifactIds>mariadb-java-client</includeArtifactIds>
+                        <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
