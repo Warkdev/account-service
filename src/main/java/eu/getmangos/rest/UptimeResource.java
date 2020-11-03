@@ -13,6 +13,9 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.tags.Tags;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import eu.getmangos.dto.UptimeDTO;
 
 public interface UptimeResource {
 
@@ -25,7 +28,7 @@ public interface UptimeResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "The uptimes version", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = UptimeDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),
@@ -43,7 +46,7 @@ public interface UptimeResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "The uptimes", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = UptimeDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),

@@ -2,14 +2,19 @@ package eu.getmangos.dto;
 
 import java.io.Serializable;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 public class LinksDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "The ID of the realm")
     private int realmID;
 
+    @Schema(description = "The ID of the account")
     private int accountID;
 
+    @Schema(description = "The number of characters the account has on the realm")
     private int numChars;
 
     public int getRealmID() {

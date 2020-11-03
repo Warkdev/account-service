@@ -3,17 +3,24 @@ package eu.getmangos.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 public class UptimeDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "The realm ID for which this record applies")
     private int realmId;
 
+    @Schema(description = "The time when the server was started")
     private Date started;
 
+    @Schema(description = "The time when the server was started, formated as readable string")
     private String startStr;
 
+    @Schema(description = "The uptime of the server, in seconds")
     private long uptime;
 
+    @Schema(description = "The maximum number of players connected")
     private int maxPlayers;
 
     public int getRealmId() {

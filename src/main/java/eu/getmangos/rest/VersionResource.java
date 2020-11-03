@@ -22,8 +22,7 @@ public interface VersionResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "The database version", content = @Content(
-                        mediaType = "application/json",
-                        schema = @Schema(implementation=DbVersionDTO.class)
+                        mediaType = "application/json", schema = @Schema(implementation=DbVersionDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),

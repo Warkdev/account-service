@@ -14,6 +14,10 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.tags.Tags;
 
+import eu.getmangos.dto.WardenLogDTO;
+
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 public interface WardenResource {
 
     @GET
@@ -25,7 +29,7 @@ public interface WardenResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "The warden logs", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = WardenLogDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),
@@ -43,7 +47,7 @@ public interface WardenResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "The warden logs", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = WardenLogDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),

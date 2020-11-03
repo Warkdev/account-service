@@ -16,7 +16,8 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
         @Tag(name = "version", description="Operations about database version"),
         @Tag(name = "realm", description="Operations about realms"),
         @Tag(name = "status", description="Operations about realms status"),
-        @Tag(name = "warden", description="Operations about warden logfiles")
+        @Tag(name = "warden", description="Operations about warden logfiles"),
+        @Tag(name = "operation", description="Maintenance operations on the database")
     },
     externalDocs = @ExternalDocumentation(
         description = "Instructions on how to deploy this WebApp",

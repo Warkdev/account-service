@@ -34,7 +34,7 @@ public interface IPBansResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "The ban", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = IpBannedDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),
@@ -59,7 +59,7 @@ public interface IPBansResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "A list of bans", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = IpBannedDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),

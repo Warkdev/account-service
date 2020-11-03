@@ -2,6 +2,7 @@ package eu.getmangos.mapper;
 
 import org.mapstruct.Mapper;
 
+import eu.getmangos.dto.RealmBuild;
 import eu.getmangos.dto.RealmDTO;
 import eu.getmangos.dto.RealmTimeZone;
 import eu.getmangos.dto.RealmType;
@@ -37,5 +38,13 @@ public interface RealmMapper {
 
     default short mapZonePrim(RealmTimeZone zone) {
         return (short) zone.zone;
+    }
+
+    default RealmBuild mapBuild(String build) {
+        return RealmBuild.convert(build);
+    }
+
+    default String mapBuildStr(RealmBuild build) {
+        return build.build;
     }
 }

@@ -2,43 +2,59 @@ package eu.getmangos.dto;
 
 import java.io.Serializable;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 public class RealmDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "An unique identifier for the realm")
     private int id;
 
+    @Schema(description = "The name of the realm")
     private String name;
 
+    @Schema(description = "The public IP address of the world server")
     private String address;
 
+    @Schema(description = "The local IP address of the world server")
     private String localAddress;
 
+    @Schema(description = "The subnet mask used for the local network")
     private String localSubnetMask;
 
+    @Schema(description = "The port that the world server is running on")
     private int port;
 
+    @Schema(description = "The icon of the realm", implementation = RealmType.class)
     private RealmType icon;
 
-    private int realmflags;
-
+    @Schema(description = "Indicates whether this realm is invalid")
     private boolean invalid;
 
+    @Schema(description = "Indicates whether this realm is offline")
     private boolean offline;
 
+    @Schema(description = "Indicates whether this realm is recommended")
     private boolean recommended;
 
+    @Schema(description = "Indicates whether this realm shows its version")
     private boolean showVersion;
 
+    @Schema(description = "Indicates whether this realm is recommended for new players")
     private boolean newPlayers;
 
+    @Schema(description = "The realm timezone")
     private RealmTimeZone zone;
 
+    @Schema(description = "Minimum account level required to login")
     private SecurityLevel allowedSecurityLevel;
 
+    @Schema(description = "Show the current population")
     private double population;
 
-    private String realmBuild;
+    @Schema(description = "The accepted client builds that the realm will accept")
+    private RealmBuild build;
 
     public int getId() {
         return id;
@@ -120,20 +136,12 @@ public class RealmDTO implements Serializable {
         this.population = population;
     }
 
-    public String getRealmBuild() {
-        return realmBuild;
+    public RealmBuild getBuild() {
+        return build;
     }
 
-    public void setRealmBuild(String realmBuild) {
-        this.realmBuild = realmBuild;
-    }
-
-    public int getRealmflags() {
-        return realmflags;
-    }
-
-    public void setRealmflags(int realmflags) {
-        this.realmflags = realmflags;
+    public void setBuild(RealmBuild build) {
+        this.build = build;
     }
 
     public boolean isInvalid() {

@@ -19,6 +19,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.tags.Tags;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import eu.getmangos.dto.LinksDTO;
 
@@ -33,7 +34,7 @@ public interface LinksResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "The link between the account and the realm", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = LinksDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),
@@ -55,7 +56,7 @@ public interface LinksResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "A list of links for the given realm", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = LinksDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),
@@ -75,7 +76,7 @@ public interface LinksResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "A list of links for the given account", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = LinksDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),
@@ -94,7 +95,7 @@ public interface LinksResource {
     @APIResponses(
         value = {
             @APIResponse(responseCode = "200", description = "A list of RealmCharacters", content = @Content(
-                        mediaType = "application/json"
+                        mediaType = "application/json", schema = @Schema(implementation = LinksDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),

@@ -3,17 +3,25 @@ package eu.getmangos.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 public class IpBannedDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "The IP address that is banned")
     private String ip;
+
+    @Schema(description = "The date when the IP was forst banned")
     private Date banDate;
 
-    private long unbanDate;
+    @Schema(description = "The date when the IP will be unbanned")
+    private Date unbanDate;
 
+    @Schema(description = "The name of the character that banned the IP")
     private String bannedBy;
 
+    @Schema(description = "The reason given for the IP ban")
     private String banReason;
 
     public String getIp() {
@@ -33,11 +41,11 @@ public class IpBannedDTO implements Serializable {
     }
 
     public Date getUnbanDate() {
-        return new Date(unbanDate);
+        return unbanDate;
     }
 
     public void setUnbanDate(Date unbanDate) {
-        this.unbanDate = unbanDate.getTime();
+        this.unbanDate = unbanDate;
     }
 
     public String getBannedBy() {
