@@ -1,0 +1,1275 @@
+openapi: 3.0.0
+info:
+  title: Mangos Auth API
+  description: API allowing to interact with the Mangos Auth Database
+  license:
+    name: Apache 2.0
+  version: "1.0"
+externalDocs:
+  description: Instructions on how to deploy this WebApp
+  url: https://github.com/Warkdev/zero-auth-db/blob/master/README.md
+servers:
+- url: http://localhost:9081/auth-service
+tags:
+- name: account
+  description: Operations about accounts
+- name: ban
+  description: Operations about bans (accounts and IPs)
+- name: version
+  description: Operations about database version
+- name: realm
+  description: Operations about realms
+- name: status
+  description: Operations about realms status
+- name: warden
+  description: Operations about warden logfiles
+- name: operation
+  description: Maintenance operations on the database
+paths:
+  /account/v1/{id}:
+    get:
+      tags:
+      - account
+      summary: Retrieves an account given the id
+      description: This API is retrieving the account with the given from the database.
+      operationId: findAccount
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: The account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Account not found
+        "500":
+          description: An unexpected event occured
+    put:
+      tags:
+      - account
+      summary: Edit an account
+      description: This API is updating an existing account based on the provided
+        input.
+      operationId: editAccount
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDTO'
+      responses:
+        "200":
+          description: The account has been updated
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Account not found
+        "500":
+          description: An unexpected even occured
+    delete:
+      tags:
+      - account
+      summary: Delete an account
+      description: "This API is deleting an existing account based on the provided\
+        \ id.It will also delete the bans for this account, the link with the realms\
+        \ and the warden logs"
+      operationId: deleteAccount
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: The account has been deleted
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Account not found
+        "500":
+          description: An unexpected even occured
+  /account/v1:
+    get:
+      tags:
+      - account
+      summary: Retrieves all accounts
+      description: This API is retrieving all accounts from the database.
+      operationId: findAllAccounts
+      responses:
+        "200":
+          description: A list of accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: A unique identifier of the account
+                  username:
+                    type: string
+                    description: An username for this account
+                  gmLevel:
+                    type: string
+                    description: The security level of the account
+                    enum:
+                    - PLAYER
+                    - MODERATOR
+                    - GAMEMASTER
+                    - ADMINISTRATOR
+                    - CONSOLE_ONLY
+                  sessionKey:
+                    type: string
+                    description: Session key for this account
+                  email:
+                    type: string
+                    description: An email address for this account. Must be of a valid
+                      format
+                  joinDate:
+                    type: string
+                    description: The date at which the user joined
+                    format: date-time
+                  lastIP:
+                    type: string
+                    description: The last IP used for this account
+                  failedLogins:
+                    type: integer
+                    description: The amount of failed logins for this account
+                  locked:
+                    type: boolean
+                    description: Indicates whether this account is locked or not
+                  lastLogin:
+                    type: string
+                    description: Last login date for this account
+                    format: date-time
+                  activeRealmId:
+                    type: integer
+                    description: An unique identifier on which this account connected
+                      the last time
+                  expansion:
+                    type: string
+                    description: An enum value indicating the expansion until which
+                      this account has access
+                    enum:
+                    - VANILLA
+                    - BURNING_CRUSADE
+                    - WOTLK
+                    - CATACLYSM
+                    - MOP
+                    - WOD
+                    - LEGION
+                    - BFA
+                  mutetime:
+                    type: string
+                    description: The date at which the account will be unmuted
+                    format: date-time
+                  locale:
+                    type: string
+                    description: The locale for this account
+                    enum:
+                    - ENGLISH
+                    - KOREAN
+                    - FRENCH
+                    - GERMAN
+                    - CHINESE
+                    - TAIWANESE
+                    - SPANISH_SPAIN
+                    - SPANISH_LATIN_AMERICA
+                    - RUSSIAN
+                  os:
+                    type: string
+                    description: OS used last time for this client
+                  playerBot:
+                    type: boolean
+                    description: Determines whether the account is an user or a playerbot
+                description: A list of accounts
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+    post:
+      tags:
+      - account
+      summary: Create a new account
+      description: This API is creating a new account based on the provided input.
+      operationId: addAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDTO'
+      responses:
+        "201":
+          description: The account has been created
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /ban/v1:
+    get:
+      tags:
+      - ban
+      summary: Retrieves all bans
+      description: This API is retrieving all bans from the database.
+      operationId: findAllBans
+      responses:
+        "200":
+          description: A list of bans
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BansDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+    post:
+      tags:
+      - ban
+      summary: Create a new ban
+      description: This API is creating a new ban based on the provided input.
+      operationId: addBan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BansDTO'
+      responses:
+        "201":
+          description: The ban has been created
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /ban/v1/{id}/{bandate}:
+    get:
+      tags:
+      - ban
+      summary: Retrieves a ban given the id
+      description: This API is retrieving the ban with the given id/bandate from the
+        database.
+      operationId: findBan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: bandate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        "200":
+          description: The ban
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BansDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Ban not found
+        "500":
+          description: An unexpected event occured
+    put:
+      tags:
+      - ban
+      summary: Edit a ban
+      description: This API is updating an existing ban based on the provided input.
+      operationId: editBan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: bandate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date-time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BansDTO'
+      responses:
+        "200":
+          description: The ban has been updated
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Ban not found
+        "500":
+          description: An unexpected even occured
+    delete:
+      tags:
+      - ban
+      summary: Delete a ban
+      description: This API is deleting an existing ban based on the provided id.
+      operationId: deleteBan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: bandate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        "204":
+          description: The ban has been deleted
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Ban not found
+        "500":
+          description: An unexpected even occured
+  /banip/v1/{ip}/{bandate}:
+    get:
+      tags:
+      - ban
+      summary: Retrieves a ban given the id
+      description: This API is retrieving the ban with the given id/bandate from the
+        database.
+      operationId: findIpBan
+      parameters:
+      - name: ip
+        in: path
+        description: The IP address to search for
+        required: true
+        schema:
+          type: string
+        example: 127.0.0.1
+      - name: bandate
+        in: path
+        description: The ban date for this IP
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        "200":
+          description: The ban
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IpBannedDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Ban not found
+        "500":
+          description: An unexpected event occured
+    put:
+      tags:
+      - ban
+      summary: Edit a ban
+      description: This API is updating an existing ban based on the provided input.
+      operationId: editIpBan
+      parameters:
+      - name: ip
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bandate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date-time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IpBannedDTO'
+      responses:
+        "200":
+          description: The ban has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IpBannedDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Ban not found
+        "500":
+          description: An unexpected even occured
+    delete:
+      tags:
+      - ban
+      summary: Delete a ban
+      description: This API is deleting an existing ban based on the provided ip.
+      operationId: deleteIpBan
+      parameters:
+      - name: ip
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bandate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        "204":
+          description: The ban has been deleted
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Ban not found
+        "500":
+          description: An unexpected even occured
+  /banip/v1:
+    get:
+      tags:
+      - ban
+      summary: Retrieves all bans
+      description: This API is retrieving all bans from the database.
+      operationId: findAllIpBans
+      responses:
+        "200":
+          description: A list of bans
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IpBannedDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+    post:
+      tags:
+      - ban
+      summary: Create a new ban
+      description: This API is creating a new ban based on the provided input.
+      operationId: addIpBan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IpBannedDTO'
+      responses:
+        "201":
+          description: The ban has been created
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /account_realms/v1/account/{accountID}/realm/{realmID}:
+    get:
+      tags:
+      - account
+      - realm
+      summary: Retrieves a link between an account and a realm
+      description: This API is retrieving the link with the given id from the database.
+      operationId: findRealmCharacters
+      parameters:
+      - name: realmID
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: accountID
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: The link between the account and the realm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinksDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Link not found
+        "500":
+          description: An unexpected event occured
+    put:
+      tags:
+      - account
+      - realm
+      summary: Edit a link
+      description: This API is updating an existing link based on the provided input.
+      operationId: editRealmCharacters
+      parameters:
+      - name: accountID
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: realmID
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinksDTO'
+      responses:
+        "200":
+          description: The link has been updated
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Link not found
+        "500":
+          description: An unexpected even occured
+    delete:
+      tags:
+      - account
+      - realm
+      summary: Delete a link
+      description: This API is deleting an existing link based on the provided id.
+      operationId: deleteRealmList
+      parameters:
+      - name: accountID
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: realmID
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: The link has been deleted
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Link not found
+        "500":
+          description: An unexpected even occured
+  /account_realms/v1/account/{accountID}:
+    get:
+      tags:
+      - account
+      summary: Retrieves all links for a given account
+      description: This API is retrieving the links with the given account id from
+        the database.
+      operationId: findRealmCharactersByAccountID
+      parameters:
+      - name: accountID
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: A list of links for the given account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinksDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Links not found
+        "500":
+          description: An unexpected event occured
+  /account_realms/v1/realm/{realmID}:
+    get:
+      tags:
+      - realm
+      summary: Retrieves all links for a given realm
+      description: This API is retrieving the links with the given realm id from the
+        database.
+      operationId: findRealmCharactersByRealmID
+      parameters:
+      - name: realmID
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: A list of links for the given realm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinksDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Links not found
+        "500":
+          description: An unexpected event occured
+  /account_realms/v1:
+    get:
+      tags:
+      - account
+      - realm
+      summary: Retrieves all links in the database
+      description: This API is retrieving all links from the database.
+      operationId: findAllRealmCharacters
+      responses:
+        "200":
+          description: A list of RealmCharacters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinksDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+    post:
+      tags:
+      - account
+      - realm
+      summary: Create a new link between a realm and an account
+      description: This API is creating a new link based on the provided input.
+      operationId: addRealmCharacters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinksDTO'
+      responses:
+        "201":
+          description: The link has been created
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /operation/v1/cleanup:
+    get:
+      tags:
+      - operation
+      summary: Retrieves a list of all items which will be cleaned up if the clean-up
+        operation is performed.
+      description: This API is showing all items which will be cleaned up from the
+        database.
+      operationId: showCleanUpDB
+      responses:
+        "200":
+          description: The list of items which will be cleaned-up is returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+    delete:
+      tags:
+      - operation
+      summary: Clean-up all dead links from the database
+      description: "This API is cleaning-up bans, links, uptimes info and logs from\
+        \ the database for accounts/realms which were removed."
+      operationId: cleanUpDB
+      responses:
+        "200":
+          description: The database has been cleaned-up with a summary of the cleaning
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /realm/v1/{id}:
+    get:
+      tags:
+      - realm
+      summary: Retrieves an Realm given the id
+      description: This API is retrieving the Realm with the given from the database.
+      operationId: findRealm
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: The Realm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RealmDTO'
+        "400":
+          description: Error with the request
+        "404":
+          description: Realm not found
+        "500":
+          description: An unexpected event occured
+    put:
+      tags:
+      - realm
+      summary: Edit an Realm
+      description: This API is updating an existing Realm based on the provided input.
+      operationId: editRealm
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RealmDTO'
+      responses:
+        "200":
+          description: The Realm has been updated
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Realm not found
+        "500":
+          description: An unexpected even occured
+    delete:
+      tags:
+      - realm
+      summary: Delete an Realm
+      description: This API is deleting an existing Realm based on the provided id.It
+        will also delete the link with the accounts and the uptime information for
+        the given realm.
+      operationId: deleteRealm
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: The Realm has been deleted
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "404":
+          description: Realm not found
+        "500":
+          description: An unexpected even occured
+  /realm/v1:
+    get:
+      tags:
+      - realm
+      summary: Retrieves all realms
+      description: This API is retrieving all realms from the database.
+      operationId: findAllRealms
+      responses:
+        "200":
+          description: A list of realms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RealmDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+    post:
+      tags:
+      - realm
+      summary: Create a new Realm
+      description: This API is creating a new Realm based on the provided input.
+      operationId: addRealm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RealmDTO'
+      responses:
+        "201":
+          description: The Realm has been created
+          content:
+            application/json: {}
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /status/v1/realm/{id}:
+    get:
+      tags:
+      - realm
+      - status
+      summary: Retrieves all uptimes data for a given realm
+      description: This API is retrieving the uptime data from the database for a
+        given realm.
+      operationId: getUptimesForRealm
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: The uptimes version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UptimeDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /status/v1:
+    get:
+      tags:
+      - status
+      summary: Retrieves all uptimes data
+      description: This API is retrieving the uptime data from the database.
+      operationId: getUptimes
+      responses:
+        "200":
+          description: The uptimes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UptimeDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /version/v1:
+    get:
+      tags:
+      - version
+      summary: Retrieves the database version
+      description: This API is retrieving the database version from the database.
+      operationId: getDbVersion
+      responses:
+        "200":
+          description: The database version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbVersionDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /warden/v1/account/{id}:
+    get:
+      tags:
+      - account
+      - warden
+      summary: Retrieves all warden log data for a given account
+      description: This API is retrieving the warden log data from the database for
+        a given account.
+      operationId: getWardenLogsForAccount
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: The warden logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WardenLogDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+  /warden/v1:
+    get:
+      tags:
+      - warden
+      summary: Retrieves all warden logs data
+      description: This API is retrieving the warden logs data from the database.
+      operationId: getAllWardenLogs
+      responses:
+        "200":
+          description: The warden logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WardenLogDTO'
+        "400":
+          description: Error with the request
+        "500":
+          description: An unexpected even occured
+components:
+  schemas:
+    RealmDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: An unique identifier for the realm
+        name:
+          type: string
+          description: The name of the realm
+        address:
+          type: string
+          description: The public IP address of the world server
+        localAddress:
+          type: string
+          description: The local IP address of the world server
+        localSubnetMask:
+          type: string
+          description: The subnet mask used for the local network
+        port:
+          type: integer
+          description: The port that the world server is running on
+        icon:
+          type: string
+          description: The icon of the realm
+          enum:
+          - NORMAL
+          - PVP
+          - NORMAL_UNUSED
+          - RP_PVE
+          - RP_PVP
+        invalid:
+          type: boolean
+          description: Indicates whether this realm is invalid
+        offline:
+          type: boolean
+          description: Indicates whether this realm is offline
+        recommended:
+          type: boolean
+          description: Indicates whether this realm is recommended
+        showVersion:
+          type: boolean
+          description: Indicates whether this realm shows its version
+        newPlayers:
+          type: boolean
+          description: Indicates whether this realm is recommended for new players
+        zone:
+          type: string
+          description: The realm timezone
+          enum:
+          - DEVELOPMENT
+          - US
+          - OCEANIC
+          - LATIN_AMERICA
+          - TOURNAMENT
+          - KOREA
+          - TOURNAMENT_2
+          - ENGLISH
+          - GERMAN
+          - FRENCH
+          - SPANISH
+          - RUSSIAN
+          - TOURNAMENT_3
+          - TAIWAN
+          - TOURNAMENT_4
+          - CHINA
+          - CN1
+          - CN2
+          - CN3
+          - CN4
+          - CN5
+          - CN6
+          - CN7
+          - CN8
+          - TOURNAMENT_5
+          - TEST_SERVER
+          - TOURNAMENT_6
+          - QA_SERVER
+          - CN9
+        allowedSecurityLevel:
+          type: string
+          description: Minimum account level required to login
+          enum:
+          - PLAYER
+          - MODERATOR
+          - GAMEMASTER
+          - ADMINISTRATOR
+          - CONSOLE_ONLY
+        population:
+          type: number
+          description: Show the current population
+          format: double
+        build:
+          type: string
+          description: The accepted client builds that the realm will accept
+          enum:
+          - MANGOS_ZERO
+          - MANGOS_ONE
+          - MANGOS_TWO
+          - MANGOS_THREE
+          - MANGOS_FOUR
+    LinksDTO:
+      type: object
+      properties:
+        realmID:
+          type: integer
+          description: The ID of the realm
+        accountID:
+          type: integer
+          description: The ID of the account
+        numChars:
+          type: integer
+          description: The number of characters the account has on the realm
+    DbVersionDTO:
+      type: object
+      properties:
+        version:
+          type: integer
+          description: The version of the release
+        structure:
+          type: integer
+          description: The current core structure level
+        content:
+          type: integer
+          description: The current core content level
+        description:
+          type: string
+          description: A short description of the latest database revision
+        comment:
+          type: string
+          description: A comment about the latest database revision
+    IpBannedDTO:
+      type: object
+      properties:
+        ip:
+          type: string
+          description: The IP address that is banned
+        banDate:
+          type: string
+          description: The date when the IP was forst banned
+          format: date-time
+        unbanDate:
+          type: string
+          description: The date when the IP will be unbanned
+          format: date-time
+        bannedBy:
+          type: string
+          description: The name of the character that banned the IP
+        banReason:
+          type: string
+          description: The reason given for the IP ban
+    WardenLogDTO:
+      type: object
+      properties:
+        entry:
+          type: integer
+          description: An unique identifier for the log entry
+        check:
+          type: integer
+          description: Failed warden check ID
+        action:
+          type: string
+          description: The action taken by Warden
+          enum:
+          - LOG
+          - KICK
+          - BAN
+        account:
+          type: integer
+          description: The account ID of the player
+        guid:
+          type: integer
+          description: The player Global Unique Identifier (GUID)
+        map:
+          type: integer
+          description: The map ID (see map.dbc)
+          format: int64
+        positionX:
+          type: number
+          description: The x location of the player
+          format: float
+        positionY:
+          type: number
+          description: The y position of the player
+          format: float
+        positionZ:
+          type: number
+          description: The z position of the player
+          format: float
+        date:
+          type: string
+          description: The date/time when the log entry was raised
+          format: date-time
+    UptimeDTO:
+      type: object
+      properties:
+        realmId:
+          type: integer
+          description: The realm ID for which this record applies
+        started:
+          type: string
+          description: The time when the server was started
+          format: date-time
+        startStr:
+          type: string
+          description: "The time when the server was started, formated as readable\
+            \ string"
+        uptime:
+          type: integer
+          description: "The uptime of the server, in seconds"
+          format: int64
+        maxPlayers:
+          type: integer
+          description: The maximum number of players connected
+    AccountDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: A unique identifier of the account
+        username:
+          type: string
+          description: An username for this account
+        gmLevel:
+          type: string
+          description: The security level of the account
+          enum:
+          - PLAYER
+          - MODERATOR
+          - GAMEMASTER
+          - ADMINISTRATOR
+          - CONSOLE_ONLY
+        sessionKey:
+          type: string
+          description: Session key for this account
+        email:
+          type: string
+          description: An email address for this account. Must be of a valid format
+        joinDate:
+          type: string
+          description: The date at which the user joined
+          format: date-time
+        lastIP:
+          type: string
+          description: The last IP used for this account
+        failedLogins:
+          type: integer
+          description: The amount of failed logins for this account
+        locked:
+          type: boolean
+          description: Indicates whether this account is locked or not
+        lastLogin:
+          type: string
+          description: Last login date for this account
+          format: date-time
+        activeRealmId:
+          type: integer
+          description: An unique identifier on which this account connected the last
+            time
+        expansion:
+          type: string
+          description: An enum value indicating the expansion until which this account
+            has access
+          enum:
+          - VANILLA
+          - BURNING_CRUSADE
+          - WOTLK
+          - CATACLYSM
+          - MOP
+          - WOD
+          - LEGION
+          - BFA
+        mutetime:
+          type: string
+          description: The date at which the account will be unmuted
+          format: date-time
+        locale:
+          type: string
+          description: The locale for this account
+          enum:
+          - ENGLISH
+          - KOREAN
+          - FRENCH
+          - GERMAN
+          - CHINESE
+          - TAIWANESE
+          - SPANISH_SPAIN
+          - SPANISH_LATIN_AMERICA
+          - RUSSIAN
+        os:
+          type: string
+          description: OS used last time for this client
+        playerBot:
+          type: boolean
+          description: Determines whether the account is an user or a playerbot
+    Map:
+      type: object
+      additionalProperties:
+        type: object
+      additionalPropertiesSchema:
+        type: object
+    BansDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: An unique identifier for this ban
+        date:
+          type: string
+          description: Date at which this ban has been issued
+          format: date-time
+        unbanDate:
+          type: string
+          description: The date when this account will be automatically unbanned
+          format: date-time
+        bannedBy:
+          type: string
+          description: The character that banned this account
+        banReason:
+          type: string
+          description: The reason for the ban
+        active:
+          type: boolean
+          description: Indicates whether the ban is currently active or not
