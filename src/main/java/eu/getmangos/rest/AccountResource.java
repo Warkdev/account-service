@@ -97,7 +97,6 @@ public interface AccountResource {
 
     @DELETE
     @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Delete an account",
         description = "This API is deleting an existing account based on the provided id."
                 + "It will also delete the bans for this account, the link with the realms and the warden logs"
