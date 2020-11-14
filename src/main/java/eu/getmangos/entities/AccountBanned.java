@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
@@ -27,7 +28,7 @@ import lombok.Data;
     @NamedQuery(name = "AccountBanned.findDeadLinks", query = "SELECT DISTINCT ab.accountBannedId.id FROM AccountBanned as ab LEFT JOIN Account as a ON a.id = ab.accountBannedId.id WHERE a.id IS NULL"),
     @NamedQuery(name = "AccountBanned.deleteDeadLinks", query = "DELETE FROM AccountBanned ab WHERE ab.accountBannedId.id IN :id")
 })
-@Data
+@Data @NoArgsConstructor @AllArgsConstructor
 public class AccountBanned implements Serializable {
     private static final long serialVersionUID = 1L;
 

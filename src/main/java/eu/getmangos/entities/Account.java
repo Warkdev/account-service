@@ -17,7 +17,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
@@ -36,7 +38,7 @@ import lombok.Data;
 /**
  * This class represent an entity Account from the Realm Database.
  */
-@Data
+@Data @NoArgsConstructor @AllArgsConstructor
 public class Account implements Serializable{
     private static final long serialVersionUID = 1L;
 

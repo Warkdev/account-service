@@ -10,7 +10,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
@@ -22,7 +24,7 @@ import lombok.Data;
     @NamedQuery(name = "IpBanned.findById", query = "SELECT i FROM IpBanned i WHERE i.id = :id"),
     @NamedQuery(name = "IpBanned.findByIp", query = "SELECT i FROM IpBanned i WHERE i.id.ip = :ip")
 })
-@Data
+@Data @NoArgsConstructor @AllArgsConstructor
 public class IpBanned implements Serializable {
 
     private static final long serialVersionUID = 1L;
