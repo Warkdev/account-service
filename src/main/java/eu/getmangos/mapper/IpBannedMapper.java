@@ -1,5 +1,7 @@
 package eu.getmangos.mapper;
 
+import java.util.Date;
+
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,4 +18,12 @@ public interface IpBannedMapper {
 
     @InheritInverseConfiguration
     IpBanned dtoToEntity(IpBannedDTO ban);
+
+    default Date map(Long value) {
+        return new Date(value);
+    }
+
+    default Long map(Date date) {
+        return date.getTime();
+    }
 }

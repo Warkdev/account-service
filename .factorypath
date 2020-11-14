@@ -20,6 +20,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/eclipse/microprofile/openapi/microprofile-openapi-api/1.1/microprofile-openapi-api-1.1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/eclipse/microprofile/rest/client/microprofile-rest-client-api/1.4.0/microprofile-rest-client-api-1.4.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/eclipse/microprofile/opentracing/microprofile-opentracing-api/1.3/microprofile-opentracing-api-1.3.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/projectlombok/lombok/1.18.16/lombok-1.18.16.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/mapstruct/mapstruct/1.4.1.Final/mapstruct-1.4.1.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/mapstruct/mapstruct-processor/1.4.1.Final/mapstruct-processor-1.4.1.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/commons-validator/commons-validator/1.7/commons-validator-1.7.jar" enabled="true" runInBatchMode="false"/>

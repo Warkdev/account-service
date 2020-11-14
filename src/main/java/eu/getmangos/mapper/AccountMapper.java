@@ -1,5 +1,7 @@
 package eu.getmangos.mapper;
 
+import java.util.Date;
+
 import org.mapstruct.Mapper;
 
 import eu.getmangos.dto.AccountDTO;
@@ -14,6 +16,14 @@ public interface AccountMapper {
     AccountDTO accountToDTO(Account account);
 
     Account dtoToEntity(AccountDTO dto);
+
+    default Date map(Long value) {
+        return new Date(value);
+    }
+
+    default Long map(Date date) {
+        return date.getTime();
+    }
 
     default SecurityLevel mapSecLevel(int level) {
         return SecurityLevel.convert(level);

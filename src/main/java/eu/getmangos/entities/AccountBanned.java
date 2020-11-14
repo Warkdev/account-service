@@ -12,6 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+
 @Entity
 @Table(
     name="account_banned"
@@ -24,6 +26,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "AccountBanned.findDeadLinks", query = "SELECT DISTINCT ab.accountBannedId.id FROM AccountBanned as ab LEFT JOIN Account as a ON a.id = ab.accountBannedId.id WHERE a.id IS NULL"),
     @NamedQuery(name = "AccountBanned.deleteDeadLinks", query = "DELETE FROM AccountBanned ab WHERE ab.accountBannedId.id IN :id")
 })
+@Data
 public class AccountBanned implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -46,44 +49,4 @@ public class AccountBanned implements Serializable {
     @Basic(optional = false)
     @NotNull
     private boolean active;
-
-    public AccountBannedId getAccountBannedId() {
-        return accountBannedId;
-    }
-
-    public void setAccountBannedId(AccountBannedId accountBannedId) {
-        this.accountBannedId = accountBannedId;
-    }
-
-    public Date getUnbanDate() {
-        return new Date(unbanDate);
-    }
-
-    public void setUnbanDate(Date unbanDate) {
-        this.unbanDate = unbanDate.getTime();
-    }
-
-    public String getBannedBy() {
-        return bannedBy;
-    }
-
-    public void setBannedBy(String bannedBy) {
-        this.bannedBy = bannedBy;
-    }
-
-    public String getBanReason() {
-        return banReason;
-    }
-
-    public void setBanReason(String banReason) {
-        this.banReason = banReason;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }

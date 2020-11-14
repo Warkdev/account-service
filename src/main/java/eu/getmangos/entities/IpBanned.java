@@ -1,7 +1,6 @@
 package eu.getmangos.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -10,6 +9,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import lombok.Data;
 
 @Entity
 @Table(
@@ -21,6 +22,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "IpBanned.findById", query = "SELECT i FROM IpBanned i WHERE i.id = :id"),
     @NamedQuery(name = "IpBanned.findByIp", query = "SELECT i FROM IpBanned i WHERE i.id.ip = :ip")
 })
+@Data
 public class IpBanned implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,35 +42,4 @@ public class IpBanned implements Serializable {
     @NotNull
     private String banReason;
 
-    public IpBannedId getId() {
-        return id;
-    }
-
-    public void setId(IpBannedId id) {
-        this.id = id;
-    }
-
-    public Date getUnbanDate() {
-        return new Date(unbanDate);
-    }
-
-    public void setUnbanDate(Date unbanDate) {
-        this.unbanDate = unbanDate.getTime();
-    }
-
-    public String getBannedBy() {
-        return bannedBy;
-    }
-
-    public void setBannedBy(String bannedBy) {
-        this.bannedBy = bannedBy;
-    }
-
-    public String getBanReason() {
-        return banReason;
-    }
-
-    public void setBanReason(String banReason) {
-        this.banReason = banReason;
-    }
 }

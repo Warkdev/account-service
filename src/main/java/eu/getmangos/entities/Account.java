@@ -17,6 +17,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+
 @Entity
 @Table(
     name="account",
@@ -34,6 +36,7 @@ import javax.validation.constraints.NotNull;
 /**
  * This class represent an entity Account from the Realm Database.
  */
+@Data
 public class Account implements Serializable{
     private static final long serialVersionUID = 1L;
 
@@ -112,156 +115,4 @@ public class Account implements Serializable{
     @Basic(optional = false)
     @NotNull
     private boolean playerBot;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getShaPassHash() {
-        return shaPassHash;
-    }
-
-    public void setShaPassHash(String shaPassHash) {
-        this.shaPassHash = shaPassHash;
-    }
-
-    public short getGmLevel() {
-        return gmLevel;
-    }
-
-    public void setGmLevel(short gmLevel) {
-        this.gmLevel = gmLevel;
-    }
-
-    public String getSessionKey() {
-        return sessionKey;
-    }
-
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
-    }
-
-    public String getV() {
-        return v;
-    }
-
-    public void setV(String v) {
-        this.v = v;
-    }
-
-    public String getS() {
-        return s;
-    }
-
-    public void setS(String s) {
-        this.s = s;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public String getLastIP() {
-        return lastIP;
-    }
-
-    public void setLastIP(String lastIP) {
-        this.lastIP = lastIP;
-    }
-
-    public int getFailedLogins() {
-        return failedLogins;
-    }
-
-    public void setFailedLogins(int failedLogins) {
-        this.failedLogins = failedLogins;
-    }
-
-    public boolean isLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
-    public Date getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(Date lastLogin) {
-        this.lastLogin = lastLogin;
-    }
-
-    public int getActiveRealmId() {
-        return activeRealmId;
-    }
-
-    public void setActiveRealmId(int activeRealmId) {
-        this.activeRealmId = activeRealmId;
-    }
-
-    public short getExpansion() {
-        return expansion;
-    }
-
-    public void setExpansion(short expansion) {
-        this.expansion = expansion;
-    }
-
-    public Date getMutetime() {
-        return new Date(mutetime);
-    }
-
-    public void setMutetime(Date mutetime) {
-        this.mutetime = mutetime.getTime();
-    }
-
-    public short getLocale() {
-        return locale;
-    }
-
-    public void setLocale(short locale) {
-        this.locale = locale;
-    }
-
-    public String getOs() {
-        return os;
-    }
-
-    public void setOs(String os) {
-        this.os = os;
-    }
-
-    public boolean isPlayerBot() {
-        return playerBot;
-    }
-
-    public void setPlayerBot(boolean playerBot) {
-        this.playerBot = playerBot;
-    }
 }
