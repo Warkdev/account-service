@@ -23,7 +23,7 @@ import eu.getmangos.mapper.BanMapper;
 import eu.getmangos.rest.BansResource;
 
 @RequestScoped
-@Path("/ban/v1")
+@Path("ban/v1")
 @Tag(name = "ban")
 public class BansResourceService implements BansResource {
 

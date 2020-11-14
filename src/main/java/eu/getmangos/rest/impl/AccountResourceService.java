@@ -19,7 +19,7 @@ import eu.getmangos.mapper.AccountMapper;
 import eu.getmangos.rest.AccountResource;
 
 @RequestScoped
-@Path("/account/v1")
+@Path("v1")
 @Tag(name = "account")
 public class AccountResourceService implements AccountResource {
 
