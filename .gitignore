@@ -1,6 +1,8 @@
 # Compiled class file
 *.class
-target/
+target/*
+# Exception the WAR
+!target/*.war
 
 .classpath
 org.eclipse*
@@ -20,7 +22,6 @@ server.xml
 
 # Package Files #
 *.jar
-*.war
 *.nar
 *.ear
 *.zip
