@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>eu.getmangos</groupId>
-  <artifactId>auth-service</artifactId>
+  <artifactId>account-service</artifactId>
   <version>1.0</version>
   <packaging>war</packaging>
 
-  <name>auth-service</name>
+  <name>account-service</name>
   <!-- FIXME change it to the project's website -->
   <url>http://localhost:9081</url>
 
@@ -108,7 +108,7 @@
             <artifactId>liberty-maven-plugin</artifactId>
             <version>3.1</version>
             <configuration>
-                <serverName>auth-service</serverName>
+                <serverName>account-service</serverName>
             </configuration>
         </plugin>
         <plugin>
