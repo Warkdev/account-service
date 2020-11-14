@@ -1,6 +1,5 @@
 package eu.getmangos.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -35,7 +34,7 @@ public class AccountBannedController {
             logger.debug("create() exit.");
             throw new DAOException("Account doesn't exist.");
         }
-        accountBanned.getAccountBannedId().setBanDate(new Date(System.currentTimeMillis()));
+        accountBanned.getAccountBannedId().setBanDate(System.currentTimeMillis());
         em.persist(accountBanned);
         logger.debug("create() exit.");
     }

@@ -1,6 +1,5 @@
 package eu.getmangos.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -30,7 +29,7 @@ public class IpBannedController {
      */
     public void create(IpBanned ipBanned) throws DAOException {
         logger.debug("create() entry.");
-        ipBanned.getId().setBanDate(new Date(System.currentTimeMillis()));
+        ipBanned.getId().setBanDate(System.currentTimeMillis());
         em.persist(ipBanned);
         logger.debug("create() exit.");
     }
