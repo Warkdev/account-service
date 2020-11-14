@@ -22,7 +22,7 @@
 	<mariadb.path>C:/Users/Cedri/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
 	<!-- Liberty configuration -->
 	<liberty.var.default.http.port>9081</liberty.var.default.http.port>
-	<liberty.var.app.context.root>api</liberty.var.app.context.root>
+	<!--<liberty.var.app.context.root>api</liberty.var.app.context.root>-->
 	<liberty.var.mariadb.lib>${mariadb.path}/${version.mariadb}/mariadb-java-client-${version.mariadb}.jar</liberty.var.mariadb.lib>
   </properties>
 
