@@ -59,3 +59,7 @@ Start by making available, in your lib directory, your database JDBC driver. Onc
 ```
 
 Voilà ! You're all set, now you can happily use this API to interact with the database.
+
+# Docker
+
+You can also user the provided Dockerfile as example to create your own applicative image containing this service !
