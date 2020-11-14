@@ -18,8 +18,6 @@ import eu.getmangos.entities.Account;
 public class AccountController {
     @Inject private Logger logger;
 
-    @Inject private RealmCharactersController realmCharactersController;
-    @Inject private WardenController wardenController;
     @Inject private AccountBannedController accountBannedController;
 
     @PersistenceContext(name = "AUTH_PU")
@@ -42,6 +40,7 @@ public class AccountController {
             throw new DAOException("Account already exist.");
         }
         account.setJoinDate(new Date(System.currentTimeMillis()));
+        account.setShaPassHash("");
         em.persist(account);
         logger.debug("create() exit.");
     }
@@ -72,12 +71,12 @@ public class AccountController {
         logger.debug("update() exit.");
     }
 
-    @Transactional
     /**
-     * Delete an account in the database. This method will also delete all links with the realms for this account.
+     * Delete an account in the database. This method will also delete all links with the bans for this account.
      * @param id The ID of the account to be deleted.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
+    @Transactional
     public void delete(Integer id) throws DAOException {
         logger.debug("delete() entry.");
 
@@ -87,8 +86,8 @@ public class AccountController {
             throw new DAOException("The account doesn't exist");
         }
 
-        wardenController.deleteLogsForAccount(id);
-        realmCharactersController.deleteByAccount(id);
+        //wardenController.deleteLogsForAccount(id);
+        //realmCharactersController.deleteByAccount(id);
         accountBannedController.deleteForAccount(id);
         em.remove(account);
 
