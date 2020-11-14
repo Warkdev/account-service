@@ -1,5 +1,6 @@
 package eu.getmangos.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -18,8 +19,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
 import eu.getmangos.dto.AccountDTO;
+import eu.getmangos.dto.BansDTO;
+import eu.getmangos.dto.IpBannedDTO;
 
 public interface AccountResource {
 
@@ -113,5 +117,199 @@ public interface AccountResource {
         }
     )
     public Response deleteAccount(@PathParam("id") Integer id);
+
+    @GET
+    @Path("bans/{id}/{bandate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Retrieves a ban given the id",
+        description = "This API is retrieving the ban with the given id/bandate from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The ban", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = BansDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected event occured")
+        }
+    )
+    public Response findBan(@PathParam("id") Integer id, @PathParam("bandate") Date banDate);
+
+    @GET
+    @Path("bans")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Retrieves all bans",
+        description = "This API is retrieving all bans from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "A list of bans", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = BansDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public List<BansDTO> findAllBans();
+
+    @POST
+    @Path("bans")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Create a new ban",
+        description = "This API is creating a new ban based on the provided input."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "201", description = "The ban has been created", content = @Content(
+                        mediaType = "application/json"
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public Response addBan(BansDTO entity);
+
+    @PUT
+    @Path("bans/{id}/{bandate}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Edit a ban",
+        description = "This API is updating an existing ban based on the provided input."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The ban has been updated", content = @Content(
+                        mediaType = "application/json"
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public Response editBan(@PathParam("id") Integer id, @PathParam("bandate") Date banDate, BansDTO entity);
+
+    @DELETE
+    @Path("bans/{id}/{bandate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Delete a ban",
+        description = "This API is deleting an existing ban based on the provided id."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "204", description = "The ban has been deleted", content = @Content(
+                        mediaType = "application/json"
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public Response deleteBan(@PathParam("id") Integer id, @PathParam("bandate") Date banDate);
+
+    @GET
+    @Path("banip/{ip}/{bandate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Retrieves a ban given the id",
+        description = "This API is retrieving the ban with the given id/bandate from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The ban", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = IpBannedDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected event occured")
+        }
+    )
+    public Response findIpBan(@PathParam("ip") @Parameter(
+        description = "The IP address to search for",
+        required = true,
+        example = "127.0.0.1"
+    ) String ip, @PathParam("bandate") @Parameter(
+        description = "The ban date for this IP",
+        required = true
+    ) Date banDate);
+
+    @GET
+    @Path("banip")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Retrieves all bans",
+        description = "This API is retrieving all bans from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "A list of bans", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = IpBannedDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public Response findAllIpBans();
+
+    @POST
+    @Path("banip")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Create a new ban",
+        description = "This API is creating a new ban based on the provided input."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "201", description = "The ban has been created", content = @Content(
+                        mediaType = "application/json"
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public Response addIpBan(IpBannedDTO entity);
+
+    @PUT
+    @Path("banip/{ip}/{bandate}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Edit a ban",
+        description = "This API is updating an existing ban based on the provided input."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The ban has been updated", content = @Content(
+                        mediaType = "application/json",
+                        schema = @Schema(implementation=IpBannedDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public Response editIpBan(@PathParam("ip") String ip, @PathParam("bandate") Date banDate, IpBannedDTO entity);
+
+    @DELETE
+    @Path("banip/{ip}/{bandate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Delete a ban",
+        description = "This API is deleting an existing ban based on the provided ip."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "204", description = "The ban has been deleted", content = @Content(
+                        mediaType = "application/json"
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "404", description = "Ban not found"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    public Response deleteIpBan(@PathParam("ip") String ip, @PathParam("bandate") Date banDate);
 
 }
