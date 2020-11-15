@@ -27,7 +27,7 @@ This software is tested against [openliberty 20.0.0.11](https://openliberty.io/)
 Start by making available, in your lib directory, your database JDBC driver. Once done, here's an example for an openliberty server.xml configuration which will setup this application on `/` on port 9081. It's also assuming that you're using MariaDB and that it's provided in the shared resources folder of the webserver.
 
 ```xml
-<server description="ZeroAuthDB">
+<server description="accountService">
     <featureManager>
         <feature>jaxrs-2.1</feature>
         <feature>jsonp-1.1</feature>
