@@ -67,7 +67,7 @@ public class AccountResourceService implements AccountResource {
         return Response.status(200).entity(account).build();
     }
 
-    public List<AccountDTO> findAllAccounts() {
+    public Response findAllAccounts() {
         logger.debug("findAll() entry.");
 
         List<AccountDTO> listAccounts = new ArrayList<>();
@@ -76,7 +76,7 @@ public class AccountResourceService implements AccountResource {
         }
 
         logger.debug("findAll() exit.");
-        return listAccounts;
+        return Response.status(200).entity(listAccounts).build();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package eu.getmangos.rest;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -67,7 +66,7 @@ public interface AccountResource {
         }
     )
     @Tag(name = "account")
-    public List<AccountDTO> findAllAccounts();
+    public Response findAllAccounts();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
