@@ -2,6 +2,7 @@ package eu.getmangos.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -29,20 +30,28 @@ public class AccountController {
      * @param account The account to create.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
-    public void create(Account account) throws DAOException {
-        logger.debug("create() entry.");
+    public void register(Account account) throws DAOException {
+        logger.debug("register() entry.");
         if(account.getUsername().isBlank()) {
-            logger.debug("create() exit.");
+            logger.debug("register() exit.");
             throw new DAOException("Username is null or empty.");
         }
         if(search(account.getUsername()) != null) {
-            logger.debug("create() exit.");
+            logger.debug("register() exit.");
             throw new DAOException("Account already exist.");
         }
         account.setJoinDate(new Date(System.currentTimeMillis()));
-        account.setShaPassHash("");
+        account.setShaPassHash("DEPRECATED");
+        account.setLastIP("0.0.0.0");
+        account.setFailedLogins(0);
+        account.setLocked(false);
+        account.setLastLogin(account.getJoinDate());
+        account.setActiveRealmId(0);
+        account.setMutetime(0L);
+        account.setPlayerBot(false);
+
         em.persist(account);
-        logger.debug("create() exit.");
+        logger.debug("register() exit.");
     }
 
     @Transactional

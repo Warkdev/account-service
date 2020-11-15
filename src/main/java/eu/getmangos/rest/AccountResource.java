@@ -24,6 +24,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.BansDTO;
 import eu.getmangos.dto.IpBannedDTO;
+import eu.getmangos.dto.srp.RegistrationDTO;
+import eu.getmangos.dto.srp.ServerCredentialsDTO;
 
 public interface AccountResource {
 
@@ -65,12 +67,12 @@ public interface AccountResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Create a new account",
-        description = "This API is creating a new account based on the provided input."
+    @Operation(summary = "Register a new account",
+        description = "This API is registering a new account based on the provided input."
     )
     @APIResponses(
         value = {
-            @APIResponse(responseCode = "201", description = "The account has been created", content = @Content(
+            @APIResponse(responseCode = "201", description = "The account has been registered", content = @Content(
                         mediaType = "application/json"
                 )
             ),
@@ -78,7 +80,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
-    public Response addAccount(AccountDTO entity);
+    public Response register(RegistrationDTO account);
 
     @PUT
     @Path("{id}")
@@ -311,5 +313,19 @@ public interface AccountResource {
         }
     )
     public Response deleteIpBan(@PathParam("ip") String ip, @PathParam("bandate") Date banDate);
+
+    @GET
+    @Path("/challenge/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Challenge user according to SRP6a validation in order to process with authentication")
+    @APIResponses(
+        value = {
+            @APIResponse(description = "A Credential object under the form of a JSON object providing the SRP6a challenge",
+                        content = @Content( mediaType = "application/json",
+                        schema = @Schema(implementation=ServerCredentialsDTO.class))),
+                @APIResponse(responseCode = "404", description = "User not found")
+        }
+    )
+    public Response challenge(@PathParam("username") String username);
 
 }

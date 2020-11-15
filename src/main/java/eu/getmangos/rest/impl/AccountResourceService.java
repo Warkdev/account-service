@@ -19,6 +19,7 @@ import eu.getmangos.controllers.IpBannedController;
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.BansDTO;
 import eu.getmangos.dto.IpBannedDTO;
+import eu.getmangos.dto.srp.RegistrationDTO;
 import eu.getmangos.entities.Account;
 import eu.getmangos.entities.AccountBanned;
 import eu.getmangos.entities.AccountBannedId;
@@ -73,13 +74,14 @@ public class AccountResourceService implements AccountResource {
         return listAccounts;
     }
 
-    public Response addAccount(AccountDTO entity) {
+    @Override
+    public Response register(RegistrationDTO account) {
         try {
-                this.accountController.create(accountMapper.dtoToEntity(entity));
+            this.accountController.register(accountMapper.dtoToEntity(account));
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+            return Response.status(400).entity(daoEx.getMessage()).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+            return Response.status(500).entity(ex.getMessage()).build();
         }
         return Response.status(201).entity("Account has been created.").build();
     }
@@ -234,6 +236,14 @@ public class AccountResourceService implements AccountResource {
                 return Response.status(500).entity(ex.getMessage()).build();
         }
         return Response.status(204).build();
+    }
+
+    @Override
+    public Response challenge(String username) {
+        logger.debug("challenge() entry.");
+
+        logger.debug("challenge() exit.");
+        return null;
     }
 
 }

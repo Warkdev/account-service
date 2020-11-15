@@ -3,11 +3,13 @@ package eu.getmangos.mapper;
 import java.util.Date;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.Expansion;
 import eu.getmangos.dto.Locale;
 import eu.getmangos.dto.SecurityLevel;
+import eu.getmangos.dto.srp.RegistrationDTO;
 import eu.getmangos.entities.Account;
 
 @Mapper(componentModel = "cdi")
@@ -15,7 +17,29 @@ public interface AccountMapper {
 
     AccountDTO accountToDTO(Account account);
 
+    @Mapping(target = "v", ignore = true)
+    @Mapping(target = "s", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "shaPassHash", ignore = true)
     Account dtoToEntity(AccountDTO dto);
+
+    @Mapping(source = "account.salt", target = "s")
+    @Mapping(source = "account.verifier", target = "v")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "shaPassHash", ignore = true)
+    @Mapping(target = "gmLevel", ignore = true)
+    @Mapping(target = "sessionKey", ignore = true)
+    @Mapping(target = "joinDate", ignore = true)
+    @Mapping(target = "lastIP", ignore = true)
+    @Mapping(target = "failedLogins", ignore = true)
+    @Mapping(target = "locked", ignore = true)
+    @Mapping(target = "lastLogin", ignore = true)
+    @Mapping(target = "activeRealmId", ignore = true)
+    @Mapping(target = "locale", ignore = true)
+    @Mapping(target = "os", ignore = true)
+    @Mapping(target = "mutetime", ignore = true)
+    @Mapping(target = "playerBot", ignore = true)
+    Account dtoToEntity(RegistrationDTO account);
 
     default Date map(Long value) {
         return new Date(value);
