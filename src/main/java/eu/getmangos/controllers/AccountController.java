@@ -39,6 +39,10 @@ public class AccountController {
             logger.debug("register() exit.");
             throw new DAOException("Account already exist.");
         }
+        if(searchByEmail(account.getEmail()) != null) {
+            logger.debug("register() exit.");
+            throw new DAOException("An account with this email address already exist.");
+        }
         account.setJoinDate(new Date(System.currentTimeMillis()));
         account.setShaPassHash("DEPRECATED");
         account.setLastIP("0.0.0.0");
@@ -133,6 +137,24 @@ public class AccountController {
         } catch (NoResultException nre) {
             logger.debug("No account found with this name.");
             logger.debug("search() exit.");
+            return null;
+        }
+    }
+
+    /**
+     * Search an account by its email address
+     * @param email The email of the account.
+     * @return The matching account for the given email.
+     */
+    public Account searchByEmail(String email) {
+        logger.debug("searchByEmail() entry.");
+        try {
+            Account account = (Account) em.createNamedQuery("Account.findByEmail").setParameter("email", email).getSingleResult();
+            logger.debug("searchByEmail() exit.");
+            return account;
+        } catch (NoResultException nre) {
+            logger.debug("No account found with this email.");
+            logger.debug("searchByEmail() exit.");
             return null;
         }
 
