@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.slf4j.Logger;
 
 import eu.getmangos.controllers.AccountBannedController;
@@ -19,6 +18,7 @@ import eu.getmangos.controllers.IpBannedController;
 import eu.getmangos.controllers.WardenController;
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.BansDTO;
+import eu.getmangos.dto.CleanupResultDTO;
 import eu.getmangos.dto.IpBannedDTO;
 import eu.getmangos.dto.WardenLogDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
@@ -281,6 +281,17 @@ public class AccountResourceService implements AccountResource {
 
         logger.debug("getAllWardenLogs() exit.");
         return Response.status(200).entity(logList).build();
+    }
+
+    @Override
+    public Response cleanupWardenLogs() {
+        logger.debug("deleteWardenLogs() entry.");
+
+        CleanupResultDTO result = new CleanupResultDTO();
+        result.setRecords(wardenController.cleanupDeadLinks());
+
+        logger.debug("deleteWardenLogs() exit.");
+        return Response.status(200).entity(result).build();
     }
 
 }

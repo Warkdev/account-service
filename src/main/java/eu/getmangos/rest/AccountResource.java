@@ -23,6 +23,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.BansDTO;
+import eu.getmangos.dto.CleanupResultDTO;
 import eu.getmangos.dto.IpBannedDTO;
 import eu.getmangos.dto.WardenLogDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
@@ -383,5 +384,22 @@ public interface AccountResource {
     @Tag(name = "warden")
     public Response getAllWardenLogs();
 
-
+    @DELETE
+    @Path("warden")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Clean-up warden logs data",
+        description = "This API is cleaning the orphans warden logs data from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The warden logs", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = CleanupResultDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    @Tag(name = "warden")
+    public Response cleanupWardenLogs();
 }
