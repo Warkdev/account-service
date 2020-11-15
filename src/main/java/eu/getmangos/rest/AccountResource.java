@@ -164,7 +164,7 @@ public interface AccountResource {
         }
     )
     @Tag(name = "ban")
-    public List<BansDTO> findAllBans();
+    public Response findAllBans();
 
     @POST
     @Path("bans")

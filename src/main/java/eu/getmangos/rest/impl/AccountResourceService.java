@@ -131,7 +131,7 @@ public class AccountResourceService implements AccountResource {
         return Response.status(200).entity(ban).build();
     }
 
-    public List<BansDTO> findAllBans() {
+    public Response findAllBans() {
         logger.debug("findAll() entry.");
 
         List<BansDTO> listAccounts = new ArrayList<>();
@@ -141,7 +141,7 @@ public class AccountResourceService implements AccountResource {
         }
 
         logger.debug("findAll() exit.");
-        return listAccounts;
+        return Response.status(200).entity(listAccounts).build();
     }
 
     public Response addBan(BansDTO entity) {
