@@ -248,7 +248,7 @@ public class AccountResourceService implements AccountResource {
         logger.debug("challenge() entry.");
 
         logger.debug("challenge() exit.");
-        return null;
+        return Response.status(200).build();
     }
 
     @Override
