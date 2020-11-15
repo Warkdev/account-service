@@ -240,7 +240,7 @@ public class SRPServerController {
 
             // Generate the verifier
             if (this.v == null) {
-                this.v = this.g.modPow(this.x, this.N);
+                this.v = g.modPow(this.x, N);
             }
         }
 
@@ -253,8 +253,8 @@ public class SRPServerController {
      */
     public void step1() {
         // Generate B - The server public value - (k.v + g^b)
-        this.gmod = this.g.modPow(this.b, this.N);
-        this.B = (this.v.multiply(this.k).add(this.gmod)).remainder(this.N);
+        this.gmod = g.modPow(this.b, N);
+        this.B = (this.v.multiply(k).add(this.gmod)).remainder(N);
     }
 
     /**
@@ -275,7 +275,7 @@ public class SRPServerController {
         u.setBinary(this.md.digest());
 
         // Generate S - the Session key - (A.v^u)^b
-        this.S = (A.multiply(this.v.modPow(u, this.N))).modPow(this.b, this.N);
+        this.S = (A.multiply(this.v.modPow(u, N))).modPow(this.b, N);
 
         // Generate vK - the hashed session key, hashed with H hash function
         byte[] t = this.S.asByteArray(32);
@@ -306,11 +306,11 @@ public class SRPServerController {
         // generating M - the server's SRP6 M value
         // Formula: H(H(N)^H(g),H(I),s,A,B,K)
         // H(N)
-        this.md.update(this.N.asByteArray(32));
+        this.md.update(N.asByteArray(32));
         byte[] hash = this.md.digest();
 
         // H(g)
-        this.md.update(this.g.asByteArray(1));
+        this.md.update(g.asByteArray(1));
         digest = this.md.digest();
 
         // H(N)^H(g)
