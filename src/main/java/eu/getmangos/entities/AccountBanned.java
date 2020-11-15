@@ -25,7 +25,8 @@ import lombok.NoArgsConstructor;
     @NamedQuery(name = "AccountBanned.findById", query = "SELECT a FROM AccountBanned a WHERE a.accountBannedId = :id"),
     @NamedQuery(name = "AccountBanned.findByAccount", query = "SELECT a FROM AccountBanned a WHERE a.accountBannedId.id = :id"),
     @NamedQuery(name = "AccountBanned.findDeadLinks", query = "SELECT DISTINCT ab.accountBannedId.id FROM AccountBanned as ab LEFT JOIN Account as a ON a.id = ab.accountBannedId.id WHERE a.id IS NULL"),
-    @NamedQuery(name = "AccountBanned.deleteDeadLinks", query = "DELETE FROM AccountBanned ab WHERE ab.accountBannedId.id IN :id")
+    @NamedQuery(name = "AccountBanned.deleteDeadLinks", query = "DELETE FROM AccountBanned ab WHERE ab.accountBannedId.id IN :id"),
+    @NamedQuery(name = "AccountBanned.deleteForAccount", query = "DELETE FROM AccountBanned ab WHERE ab.accountBannedId.id = :id")
 })
 @Data @NoArgsConstructor @AllArgsConstructor
 public class AccountBanned implements Serializable {

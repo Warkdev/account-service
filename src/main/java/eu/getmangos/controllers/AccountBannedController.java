@@ -102,7 +102,7 @@ public class AccountBannedController {
     public void deleteForAccount(Integer accountId) {
         logger.debug("deleteForAccount() entry.");
 
-        em.remove(search(accountId));
+        em.createNamedQuery("AccountBanned.deleteForAccount").setParameter("id", accountId).executeUpdate();
 
         logger.debug("deleteForAccount() exit.");
     }
