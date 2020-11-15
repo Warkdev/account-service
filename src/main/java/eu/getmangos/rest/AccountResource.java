@@ -18,12 +18,14 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.BansDTO;
 import eu.getmangos.dto.IpBannedDTO;
+import eu.getmangos.dto.WardenLogDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
 import eu.getmangos.dto.srp.ServerCredentialsDTO;
 
@@ -46,6 +48,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
+    @Tag(name = "account")
     public Response findAccount(@PathParam("id") Integer id);
 
     @GET
@@ -63,6 +66,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "account")
     public List<AccountDTO> findAllAccounts();
 
     @POST
@@ -80,6 +84,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "account")
     public Response register(RegistrationDTO account);
 
     @PUT
@@ -99,6 +104,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "account")
     public Response editAccount(@PathParam("id") Integer id, AccountDTO entity);
 
     @DELETE
@@ -118,6 +124,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "account")
     public Response deleteAccount(@PathParam("id") Integer id);
 
     @GET
@@ -137,6 +144,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
+    @Tag(name = "ban")
     public Response findBan(@PathParam("id") Integer id, @PathParam("bandate") Date banDate);
 
     @GET
@@ -155,6 +163,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban")
     public List<BansDTO> findAllBans();
 
     @POST
@@ -173,6 +182,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban")
     public Response addBan(BansDTO entity);
 
     @PUT
@@ -192,6 +202,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban")
     public Response editBan(@PathParam("id") Integer id, @PathParam("bandate") Date banDate, BansDTO entity);
 
     @DELETE
@@ -211,6 +222,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban")
     public Response deleteBan(@PathParam("id") Integer id, @PathParam("bandate") Date banDate);
 
     @GET
@@ -230,6 +242,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
+    @Tag(name = "ban ip")
     public Response findIpBan(@PathParam("ip") @Parameter(
         description = "The IP address to search for",
         required = true,
@@ -255,6 +268,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban ip")
     public Response findAllIpBans();
 
     @POST
@@ -273,6 +287,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban ip")
     public Response addIpBan(IpBannedDTO entity);
 
     @PUT
@@ -293,6 +308,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban ip")
     public Response editIpBan(@PathParam("ip") String ip, @PathParam("bandate") Date banDate, IpBannedDTO entity);
 
     @DELETE
@@ -312,6 +328,7 @@ public interface AccountResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "ban ip")
     public Response deleteIpBan(@PathParam("ip") String ip, @PathParam("bandate") Date banDate);
 
     @GET
@@ -326,6 +343,46 @@ public interface AccountResource {
                 @APIResponse(responseCode = "404", description = "User not found")
         }
     )
+    @Tag(name = "authentication")
     public Response challenge(@PathParam("username") String username);
+
+    @GET
+    @Path("/warden/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Retrieves all warden log data for a given account",
+        description = "This API is retrieving the warden log data from the database for a given account."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The warden logs", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = WardenLogDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    @Tag(name = "warden")
+    public Response getWardenLogsForAccount(@PathParam("id") Integer accountId);
+
+    @GET
+    @Path("warden")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Retrieves all warden logs data",
+        description = "This API is retrieving the warden logs data from the database."
+    )
+    @APIResponses(
+        value = {
+            @APIResponse(responseCode = "200", description = "The warden logs", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = WardenLogDTO.class)
+                )
+            ),
+            @APIResponse(responseCode = "400", description = "Error with the request"),
+            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+        }
+    )
+    @Tag(name = "warden")
+    public Response getAllWardenLogs();
+
 
 }

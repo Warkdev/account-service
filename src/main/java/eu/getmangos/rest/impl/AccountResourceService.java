@@ -16,23 +16,26 @@ import eu.getmangos.controllers.AccountBannedController;
 import eu.getmangos.controllers.AccountController;
 import eu.getmangos.controllers.DAOException;
 import eu.getmangos.controllers.IpBannedController;
+import eu.getmangos.controllers.WardenController;
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.BansDTO;
 import eu.getmangos.dto.IpBannedDTO;
+import eu.getmangos.dto.WardenLogDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
 import eu.getmangos.entities.Account;
 import eu.getmangos.entities.AccountBanned;
 import eu.getmangos.entities.AccountBannedId;
 import eu.getmangos.entities.IpBanned;
 import eu.getmangos.entities.IpBannedId;
+import eu.getmangos.entities.WardenLog;
 import eu.getmangos.mapper.AccountMapper;
 import eu.getmangos.mapper.BanMapper;
 import eu.getmangos.mapper.IpBannedMapper;
+import eu.getmangos.mapper.WardenLogMapper;
 import eu.getmangos.rest.AccountResource;
 
 @RequestScoped
 @Path("v1")
-@Tag(name = "account")
 public class AccountResourceService implements AccountResource {
 
     @Inject private Logger logger;
@@ -40,10 +43,12 @@ public class AccountResourceService implements AccountResource {
     @Inject private AccountController accountController;
     @Inject private AccountBannedController accountBannedController;
     @Inject private IpBannedController ipBannedController;
+    @Inject private WardenController wardenController;
 
     @Inject private AccountMapper accountMapper;
     @Inject private BanMapper banMapper;
     @Inject private IpBannedMapper ipMapper;
+    @Inject private WardenLogMapper wardenMapper;
 
     public Response findAccount(Integer id) {
         logger.debug("find() entry.");
@@ -243,7 +248,39 @@ public class AccountResourceService implements AccountResource {
         logger.debug("challenge() entry.");
 
         logger.debug("challenge() exit.");
-        return null;
+        return Response.status(200).build();
+    }
+
+    @Override
+    public Response getWardenLogsForAccount(Integer accountId) {
+        logger.debug("getWardenLogsForAccount() entry.");
+
+        if(accountId == null) {
+            return Response.status(500).entity("The provided ID is null.").build();
+        }
+
+        List<WardenLogDTO> logList = new ArrayList<>();
+
+        for(WardenLog log : this.wardenController.getWardenLogForAccount(accountId)) {
+            logList.add(wardenMapper.logToDTO(log));
+        }
+
+        logger.debug("getWardenLogsForAccount() exit.");
+        return Response.status(200).entity(logList).build();
+    }
+
+    @Override
+    public Response getAllWardenLogs() {
+        logger.debug("getAllWardenLogs() entry.");
+
+        List<WardenLogDTO> logList = new ArrayList<>();
+
+        for(WardenLog log : this.wardenController.getAllLogs()) {
+            logList.add(wardenMapper.logToDTO(log));
+        }
+
+        logger.debug("getAllWardenLogs() exit.");
+        return Response.status(200).entity(logList).build();
     }
 
 }
