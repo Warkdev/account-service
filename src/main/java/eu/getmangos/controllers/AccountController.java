@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.reactivestreams.Publisher;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,6 +19,9 @@ import org.slf4j.Logger;
 import eu.getmangos.dto.AccountEventDTO;
 import eu.getmangos.entities.Account;
 import eu.getmangos.mapper.AccountMapper;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.FlowableEmitter;
 
 @ApplicationScoped
 public class AccountController {
@@ -27,6 +31,8 @@ public class AccountController {
 
     @PersistenceContext(name = "AUTH_PU")
     private EntityManager em;
+
+    private FlowableEmitter<AccountEventDTO> accountEventEmitter;
 
     @Inject private AccountMapper mapper;
 
@@ -96,8 +102,7 @@ public class AccountController {
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
     @Transactional
-    @Outgoing("account")
-    public Message<AccountEventDTO> delete(Integer id) throws DAOException {
+    public void delete(Integer id) throws DAOException {
         logger.debug("delete() entry.");
 
         Account account = find(id);
@@ -111,9 +116,16 @@ public class AccountController {
         accountBannedController.deleteForAccount(id);
         em.remove(account);
 
+        AccountEventDTO event = mapper.map(account, AccountEventDTO.Event.DELETE);
+        accountEventEmitter.onNext(event);
         logger.debug("delete() exit.");
+    }
 
-        return Message.of(mapper.map(account, AccountEventDTO.Event.DELETE));
+    @Outgoing("account")
+    public Publisher<AccountEventDTO> notifyAccountEvent() {
+        Flowable<AccountEventDTO> flowable = Flowable.<AccountEventDTO>create(emitter ->
+            this.accountEventEmitter = emitter, BackpressureStrategy.BUFFER);
+        return flowable;
     }
 
     /**
