@@ -3,7 +3,10 @@ package eu.getmangos.controllers;
 import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import org.eclipse.microprofile.reactive.messaging.Message;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,9 +15,11 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import eu.getmangos.dto.AccountEventDTO;
 import eu.getmangos.entities.Account;
+import eu.getmangos.mapper.AccountMapper;
 
-@RequestScoped
+@ApplicationScoped
 public class AccountController {
     @Inject private Logger logger;
 
@@ -22,6 +27,8 @@ public class AccountController {
 
     @PersistenceContext(name = "AUTH_PU")
     private EntityManager em;
+
+    @Inject private AccountMapper mapper;
 
     @Transactional
     /**
@@ -89,7 +96,8 @@ public class AccountController {
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
     @Transactional
-    public void delete(Integer id) throws DAOException {
+    @Outgoing("account")
+    public Message<AccountEventDTO> delete(Integer id) throws DAOException {
         logger.debug("delete() entry.");
 
         Account account = find(id);
@@ -104,6 +112,8 @@ public class AccountController {
         em.remove(account);
 
         logger.debug("delete() exit.");
+
+        return Message.of(mapper.map(account, AccountEventDTO.Event.DELETE));
     }
 
     /**
