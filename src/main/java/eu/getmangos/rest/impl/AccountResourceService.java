@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
@@ -34,7 +35,7 @@ import eu.getmangos.mapper.IpBannedMapper;
 import eu.getmangos.mapper.WardenLogMapper;
 import eu.getmangos.rest.AccountResource;
 
-@RequestScoped
+@ApplicationScoped
 @Path("v1")
 public class AccountResourceService implements AccountResource {
 

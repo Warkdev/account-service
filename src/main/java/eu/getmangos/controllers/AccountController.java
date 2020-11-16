@@ -3,7 +3,11 @@ package eu.getmangos.controllers;
 import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import org.eclipse.microprofile.reactive.messaging.Message;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.reactivestreams.Publisher;
+
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,9 +16,14 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import eu.getmangos.dto.AccountEventDTO;
 import eu.getmangos.entities.Account;
+import eu.getmangos.mapper.AccountMapper;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.FlowableEmitter;
 
-@RequestScoped
+@ApplicationScoped
 public class AccountController {
     @Inject private Logger logger;
 
@@ -22,6 +31,10 @@ public class AccountController {
 
     @PersistenceContext(name = "AUTH_PU")
     private EntityManager em;
+
+    private FlowableEmitter<AccountEventDTO> accountEventEmitter;
+
+    @Inject private AccountMapper mapper;
 
     @Transactional
     /**
@@ -103,7 +116,16 @@ public class AccountController {
         accountBannedController.deleteForAccount(id);
         em.remove(account);
 
+        AccountEventDTO event = mapper.map(account, AccountEventDTO.Event.DELETE);
+        accountEventEmitter.onNext(event);
         logger.debug("delete() exit.");
+    }
+
+    @Outgoing("account")
+    public Publisher<AccountEventDTO> notifyAccountEvent() {
+        Flowable<AccountEventDTO> flowable = Flowable.<AccountEventDTO>create(emitter ->
+            this.accountEventEmitter = emitter, BackpressureStrategy.BUFFER);
+        return flowable;
     }
 
     /**

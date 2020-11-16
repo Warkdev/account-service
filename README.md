@@ -31,10 +31,12 @@ Start by making available, in your lib directory, your database JDBC driver. Onc
     <featureManager>
         <feature>jaxrs-2.1</feature>
         <feature>jsonp-1.1</feature>
+        <feature>jsonb-1.0</feature>
         <feature>cdi-2.0</feature>
         <feature>jpa-2.2</feature>
         <feature>mpConfig-1.4</feature>
         <feature>mpOpenAPI-1.1</feature>
+        <feature>mpReactiveMessaging-1.0</feature>
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9081"/>

@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import eu.getmangos.dto.AccountDTO;
+import eu.getmangos.dto.AccountEventDTO;
 import eu.getmangos.dto.Expansion;
 import eu.getmangos.dto.Locale;
 import eu.getmangos.dto.SecurityLevel;
@@ -40,6 +41,9 @@ public interface AccountMapper {
     @Mapping(target = "mutetime", ignore = true)
     @Mapping(target = "playerBot", ignore = true)
     Account dtoToEntity(RegistrationDTO account);
+
+    @Mapping(target = "event", source = "event")
+    AccountEventDTO map(Account account, AccountEventDTO.Event event);
 
     default Date map(Long value) {
         return new Date(value);
