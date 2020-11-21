@@ -36,7 +36,6 @@ Start by making available, in your lib directory, your database JDBC driver. Onc
         <feature>jpa-2.2</feature>
         <feature>mpConfig-1.4</feature>
         <feature>mpOpenAPI-1.1</feature>
-        <feature>mpReactiveMessaging-1.0</feature>
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9081"/>
