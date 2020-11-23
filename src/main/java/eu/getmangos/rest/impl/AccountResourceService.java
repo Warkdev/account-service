@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -37,7 +36,7 @@ import eu.getmangos.mapper.WardenLogMapper;
 import eu.getmangos.rest.AccountResource;
 
 @ApplicationScoped
-@Path("v1")
+@Path("account/v1")
 public class AccountResourceService implements AccountResource {
 
     @Inject private Logger logger;
