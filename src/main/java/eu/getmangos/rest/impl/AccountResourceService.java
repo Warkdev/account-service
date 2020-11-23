@@ -21,6 +21,7 @@ import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.BansDTO;
 import eu.getmangos.dto.CleanupResultDTO;
 import eu.getmangos.dto.IpBannedDTO;
+import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.dto.WardenLogDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
 import eu.getmangos.entities.Account;
@@ -61,7 +62,7 @@ public class AccountResourceService implements AccountResource {
         AccountDTO account = accountMapper.accountToDTO(accountController.find(id));
 
         if(account == null) {
-                return Response.status(404).entity("The provided ID has no match in the database.").build();
+                return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
         }
 
         logger.debug("find() exit.");
@@ -85,11 +86,11 @@ public class AccountResourceService implements AccountResource {
         try {
             this.accountController.register(accountMapper.dtoToEntity(account));
         } catch (DAOException daoEx) {
-            return Response.status(400).entity(daoEx.getMessage()).build();
+            return Response.status(400).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-            return Response.status(500).entity(ex.getMessage()).build();
+            return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(201).entity("Account has been created.").build();
+        return Response.status(201).entity(new MessageDTO("Account has been created.")).build();
     }
 
     public Response editAccount(Integer id, AccountDTO entity) {
@@ -97,9 +98,9 @@ public class AccountResourceService implements AccountResource {
                 entity.setId(id);
                 this.accountController.update(accountMapper.dtoToEntity(entity));
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
         return Response.status(200).entity("Account has been updated.").build();
     }
@@ -108,9 +109,9 @@ public class AccountResourceService implements AccountResource {
         try {
                 this.accountController.delete(id);
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
         return Response.status(204).build();
     }
@@ -119,13 +120,13 @@ public class AccountResourceService implements AccountResource {
         logger.debug("find() entry.");
 
         if (id == null) {
-                return Response.status(500).entity("The provided ID is null.").build();
+                return Response.status(500).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
         BansDTO ban = banMapper.banToDTO(accountBannedController.find(new AccountBannedId(id, banDate.getTime())));
 
         if(ban == null) {
-                return Response.status(404).entity("The provided ID has no match in the database.").build();
+                return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
         }
 
         logger.debug("find() exit.");
@@ -149,9 +150,9 @@ public class AccountResourceService implements AccountResource {
         try {
                 this.accountBannedController.create(banMapper.dtoToEntity(entity));
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(400).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
         return Response.status(201).entity("Ban has been created.").build();
     }
@@ -162,9 +163,9 @@ public class AccountResourceService implements AccountResource {
                 ban.setAccountBannedId(new AccountBannedId(id, banDate.getTime()));
                 this.accountBannedController.update(ban);
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
         return Response.status(200).entity("Ban has been updated.").build();
     }
@@ -173,9 +174,9 @@ public class AccountResourceService implements AccountResource {
         try {
                 this.accountBannedController.delete(new AccountBannedId(id, banDate.getTime()));
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
         return Response.status(204).build();
     }
@@ -184,13 +185,13 @@ public class AccountResourceService implements AccountResource {
         logger.debug("find() entry.");
 
         if (ip == null || ip.isBlank()) {
-                return Response.status(500).entity("The provided IP is null.").build();
+                return Response.status(400).entity(new MessageDTO("The provided IP is null.")).build();
         }
 
         IpBanned IpBanned = this.ipBannedController.find(new IpBannedId(ip, banDate.getTime()));
 
         if(IpBanned == null) {
-                return Response.status(404).entity("The provided ID has no match in the database.").build();
+                return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
         }
 
         logger.debug("find() exit.");
@@ -213,11 +214,11 @@ public class AccountResourceService implements AccountResource {
         try {
                 this.ipBannedController.create(ipMapper.dtoToEntity(entity));
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(400).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(201).entity("Ban has been created.").build();
+        return Response.status(201).entity(new MessageDTO("Ban has been created.")).build();
     }
 
     public Response editIpBan(String ip, Date banDate, IpBannedDTO entity) {
@@ -226,20 +227,20 @@ public class AccountResourceService implements AccountResource {
                 ban.setId(new IpBannedId(ip, banDate.getTime()));
                 this.ipBannedController.update(ban);
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(200).entity("Ban has been updated.").build();
+        return Response.status(200).entity(new MessageDTO("Ban has been updated.")).build();
     }
 
     public Response deleteIpBan(String ip, Date banDate) {
         try {
                 this.ipBannedController.delete(new IpBannedId(ip, banDate.getTime()));
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
         return Response.status(204).build();
     }
@@ -257,7 +258,7 @@ public class AccountResourceService implements AccountResource {
         logger.debug("getWardenLogsForAccount() entry.");
 
         if(accountId == null) {
-            return Response.status(500).entity("The provided ID is null.").build();
+            return Response.status(500).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
         List<WardenLogDTO> logList = new ArrayList<>();
