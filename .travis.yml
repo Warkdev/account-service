@@ -1,7 +1,6 @@
 language: java
 before_script:
 - unset _JAVA_OPTIONS
-- cd finish
 - chmod +x ../scripts/travisTest.sh
 script:
 - ../scripts/travisTest.sh
