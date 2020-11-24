@@ -4,6 +4,8 @@ addons:
 jdk:
   - openjdk13
 before_script:
+  - sudo mysql --user root < /home/travis/build/Warkdev/account-service/scripts/database/structure.sql
+  - sudo mysql --user root auth < /home/travis/build/Warkdev/account-service/scripts/database/data.sql
   - unset _JAVA_OPTIONS
   - chmod +x scripts/travisTest.sh
 script:
@@ -26,6 +28,3 @@ after_script:
 branches:
   only:
     - main
-before_install:
- - mysql --user root < /home/travis/build/Warkdev/account-service/scripts/database/structure.sql
- - mysql --user root auth < /home/travis/build/Warkdev/account-service/scripts/database/data.sql
