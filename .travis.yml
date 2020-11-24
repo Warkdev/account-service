@@ -1,6 +1,6 @@
 language: java
-services:
-  - mariadb
+addons:
+  mariadb: '10.1'
 jdk:
   - openjdk13
 before_script:
