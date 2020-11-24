@@ -28,4 +28,4 @@ branches:
     - main
 before_install:
  - mysql --user root < /home/travis/build/Warkdev/account-service/scripts/database/structure.sql
- - mysql --user root jangosauth < /home/travis/build/Warkdev/account-service/scripts/database/data.sql
+ - mysql --user root auth < /home/travis/build/Warkdev/account-service/scripts/database/data.sql
