@@ -1,10 +1,12 @@
-# account-service
+# account-service [![Build status](https://travis-ci.com/Warkdev/account-service.svg?branch=master)][1] [![Coverage Status](https://coveralls.io/repos/github/Warkdev/account-service/badge.svg?branch=master)][4] [![Codebeat badge](https://codebeat.co/badges/5ccfd060-8d57-4a51-9c6b-2688482f857e)][5]
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This project is educational, this is a Rest API based on [Mangos Authentication Database](https://github.com/mangoszero/database), it provides access to the database through web calls and allows to manage Mangos accounts:
 - Account
 - Bans (Account or IP)
+
+See the [Javadoc][2] for more information. Don't hesitate to raise an issue in the [tracker][3] if you notice any suspect behavior.
 
 # OpenAPI
 
@@ -64,3 +66,9 @@ Voilà ! You're all set, now you can happily use this API to interact with the d
 # Docker
 
 You can also user the provided Dockerfile as example to create your own applicative image containing this service !
+
+[1]: https://travis-ci.com/Warkdev/account-service "Travis CI · Account Service build status"
+[2]: https://warkdev.github.io/account-service/apidocs/ "Account Service javadoc"
+[3]: https://github.com/account-service/issues/ "Account Service Issues"
+[4]: https://coveralls.io/github/Warkdev/account-service?branch=master "Account Service Coverage status"
+[5]: https://codebeat.co/projects/github-com-warkdev-account-service-master "Account Service Codebeat status"
