@@ -24,7 +24,7 @@ public class IpBannedController {
     @Transactional
     /**
      * Creates a ban ip in the dabatase.
-     * @param ipBan The ip to ban.
+     * @param ipBanned The ip to ban.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
     public void create(IpBanned ipBanned) throws DAOException {
@@ -37,7 +37,7 @@ public class IpBannedController {
     @Transactional
     /**
      * Updates an ip ban in the dabatase.
-     * @param account The ban to edit.
+     * @param ipBanned The ban to edit.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
     public void update(IpBanned ipBanned) throws DAOException {
@@ -91,7 +91,7 @@ public class IpBannedController {
 
     /**
      * Search all bans for an ip.
-     * @param name The ip.
+     * @param ip The ip.
      * @return The matching bans for the given ip.
      */
     public IpBanned search(Integer ip) {

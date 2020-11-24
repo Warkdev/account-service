@@ -149,7 +149,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set, which means that the flag value should be 8.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param flag The flag to be found.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean hasFlag(byte field, byte flag) {
         return ((field & flag) == flag);
@@ -160,7 +160,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set, which means that the flag value should be 8.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param flag The flag to be found.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean hasFlag(short field, short flag) {
         return ((field & flag) == flag);
@@ -171,7 +171,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set, which means that the flag value should be 8.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param flag The flag to be found.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean hasFlag(int field, int flag) {
         return ((field & flag) == flag);
@@ -182,7 +182,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set, which means that the flag value should be 8.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param flag The flag to be found.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean hasFlag(long field, long flag) {
         return ((field & flag) == flag);
@@ -193,7 +193,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param pos The position of the flag that has to be set.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean isSet(byte field, int pos) {
         if(pos < 1 || pos > 8) {
@@ -208,7 +208,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param pos The position of the flag that has to be set.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean isSet(short field, int pos) {
         if(pos < 1 || pos > 16) {
@@ -223,7 +223,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param pos The position of the flag that has to be set.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean isSet(int field, int pos) {
         if(pos < 1 || pos > 32) {
@@ -238,7 +238,7 @@ public class FlagUtils {
      * E.g: The byte 00000100 has the 3rd flag set.
      * @param field The byte value, represented as short for signed reasons, for which the flag needs to be compared. This value is truncated, which means that only the first byte is taken into account.
      * @param pos The position of the flag that has to be set.
-     * @return
+     * @return A boolean value indicating whether the flag is set or not.
      */
     public static boolean isSet(long field, int pos) {
         if(pos < 1 || pos > 64) {

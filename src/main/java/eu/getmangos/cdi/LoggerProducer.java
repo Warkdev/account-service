@@ -36,9 +36,9 @@ public class LoggerProducer implements Serializable {
 	private static final long serialVersionUID = -8206344781531469094L;
 
 	/**
-     *
-     * @param ip
-     * @return
+     * Allows to inject the SL4J logger from CDI
+     * @param ip The injection point
+     * @return An instance of the SLF4J Logger.
      */
     @Produces
     public Logger getLogger(final InjectionPoint ip) {

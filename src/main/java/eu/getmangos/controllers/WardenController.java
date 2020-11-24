@@ -119,6 +119,7 @@ public class WardenController {
 
     /**
      * Retrieves all warden logs from the database for a given account.
+     * @param accountId The Id of the account for which the warden logs needs to be retrieved.
      * @return A list of records containing the logs for a single account.
      */
     @SuppressWarnings("unchecked")

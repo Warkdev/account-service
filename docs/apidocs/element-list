@@ -1,0 +1,11 @@
+eu.getmangos.cdi
+eu.getmangos.controllers
+eu.getmangos.dto
+eu.getmangos.dto.srp
+eu.getmangos.entities
+eu.getmangos.mapper
+eu.getmangos.rest
+eu.getmangos.rest.health
+eu.getmangos.rest.impl
+eu.getmangos.serializers
+eu.getmangos.utils

@@ -25,7 +25,7 @@ public class AccountBannedController {
     @Transactional
     /**
      * Creates a ban in the dabatase.
-     * @param account The account to ban.
+     * @param accountBanned The account to ban.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
     public void create(AccountBanned accountBanned) throws DAOException {
@@ -42,7 +42,7 @@ public class AccountBannedController {
     @Transactional
     /**
      * Updates a ban in the dabatase.
-     * @param account The ban to edit.
+     * @param accountBanned The ban to edit.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
     public void update(AccountBanned accountBanned) throws DAOException {
@@ -109,7 +109,7 @@ public class AccountBannedController {
 
     /**
      * Search all bans for an account.
-     * @param name The id of the account.
+     * @param id The id of the account.
      * @return The matching bans for the given id.
      */
     public AccountBanned search(Integer id) {
