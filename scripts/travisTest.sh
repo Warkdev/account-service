@@ -16,9 +16,7 @@ set -euxo pipefail
 #       liberty:deploy            - Copy applications to the Liberty server's dropins or apps directory.
 mvn -q clean install
 
-cd ear
 mvn liberty:create liberty:install-feature liberty:deploy
-
 
 ## Run the tests
 # These commands are separated because if one of the commands fail, the test script will fail and exit.
