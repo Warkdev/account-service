@@ -1,4 +1,6 @@
 language: java
+jdk:
+  - oraclejdk13
 before_script:
 - unset _JAVA_OPTIONS
 - chmod +x ../scripts/travisTest.sh
