@@ -2,8 +2,6 @@ package eu.getmangos.dto;
 
 import java.io.Serializable;
 
-import org.apache.kafka.common.serialization.Serializer;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
