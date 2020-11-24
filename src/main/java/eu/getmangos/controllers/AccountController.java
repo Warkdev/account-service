@@ -3,7 +3,6 @@ package eu.getmangos.controllers;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.reactivestreams.Publisher;
 
