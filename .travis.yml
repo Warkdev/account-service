@@ -3,9 +3,9 @@ jdk:
   - oraclejdk13
 before_script:
 - unset _JAVA_OPTIONS
-- chmod +x ../scripts/travisTest.sh
+- chmod +x scripts/travisTest.sh
 script:
-- ../scripts/travisTest.sh
+- scripts/travisTest.sh
 after_script:
 - logsPath=$(find . -name "console.log" | sed "s/console.log//g");
 - build=$(grep "Open Liberty" $logsPath/console.log | cut -d" " -f5 | cut -d")" -f1 );
