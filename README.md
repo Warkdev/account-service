@@ -69,6 +69,6 @@ You can also user the provided Dockerfile as example to create your own applicat
 
 [1]: https://travis-ci.com/Warkdev/account-service "Travis CI · Account Service build status"
 [2]: https://warkdev.github.io/account-service/apidocs/ "Account Service javadoc"
-[3]: https://github.com/account-service/issues/ "Account Service Issues"
+[3]: https://github.com/Warkdev/account-service/issues/ "Account Service Issues"
 [4]: https://coveralls.io/github/Warkdev/account-service?branch=main "Account Service Coverage status"
 [5]: https://codebeat.co/projects/github-com-warkdev-account-service-main "Account Service Codebeat status"
