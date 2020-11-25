@@ -7,7 +7,7 @@ org.eclipse*
 .project
 
 # OpenLiberty specific
-server.xml
+src/main/liberty/config/server.xml
 
 # Log file
 *.log
