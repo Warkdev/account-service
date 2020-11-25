@@ -19,7 +19,7 @@
     <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
     <!-- MariaDB Library -->
 	<version.mariadb>2.7.0</version.mariadb>
-	<mariadb.path>C:/Users/Cedri/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
+	<mariadb.path>${user.home}/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
 	<!-- Liberty configuration -->
 	<liberty.var.default.http.port>8081</liberty.var.default.http.port>
 	<!--<liberty.var.app.context.root>api</liberty.var.app.context.root>-->
@@ -199,7 +199,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
+          <version>2.22.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
