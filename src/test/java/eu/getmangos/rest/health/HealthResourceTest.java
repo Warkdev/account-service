@@ -24,7 +24,7 @@ public class HealthResourceTest {
 
     @BeforeAll
     public static void oneTimeSetup() {
-        baseUrl = "http://localhost:8081";
+        baseUrl = "http://localhost:8080";
     }
 
     @BeforeEach
