@@ -1,0 +1,34 @@
+<server description="ZeroAuthDB">
+    <featureManager>
+        <feature>jsonb-1.0</feature>
+        <feature>jaxrs-2.1</feature>
+        <feature>jsonp-1.1</feature>
+        <feature>cdi-2.0</feature>
+        <feature>jpa-2.2</feature>
+        <feature>mpConfig-1.4</feature>
+        <feature>mpOpenAPI-1.1</feature>
+        <feature>mpMetrics-2.3</feature>
+        <feature>mpHealth-2.2</feature>
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="8080"/>
+    <variable name="version.mariadb" defaultValue="2.7.0"/>
+    <variable name="mariadb.lib" defaultValue="${shared.resource.dir}/mariadb-java-client-${version.mariadb}.jar"/>
+
+    <httpEndpoint httpPort="${default.http.port}" id="defaultHttpEndpoint" hosts="*" />
+
+    <jpa defaultJtaDataSourceJndiName="jdbc/AuthDBDS" entityManagerPoolCapacity="5"/>
+    <library id="MARIADBLIB" name="Library for Maria DB">
+        <file name="${mariadb.lib}"/>
+    </library>
+    <dataSource id="AuthDBDS" jndiName="jdbc/AuthDBDS">
+    	<jdbcDriver javax.sql.DataSource="org.mariadb.jdbc.Driver" libraryRef="MARIADBLIB"/>
+    	<properties URL="jdbc:mariadb://localhost:3306/auth" databaseName="auth" password="" portNumber="3306" serverName="localhost" user="root"/>
+    </dataSource>
+    <webAppSecurity singleSignonEnabled="false"/>
+    <basicRegistry id="basic" realm="dummyRealm">
+    	<user name="admin" password="{xor}PjsyNjE="/>
+    </basicRegistry>
+
+    <variable name="eu_getmangos_account_service_inMaintenance" value="false"/>
+</server>
