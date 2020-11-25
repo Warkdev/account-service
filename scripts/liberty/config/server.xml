@@ -12,10 +12,15 @@
     </featureManager>
 
     <variable name="default.http.port" defaultValue="8080"/>
+    <variable name="default.https.port" defaultValue="8081"/>
+
     <variable name="version.mariadb" defaultValue="2.7.0"/>
     <variable name="mariadb.lib" defaultValue="${shared.resource.dir}/mariadb-java-client-${version.mariadb}.jar"/>
 
-    <httpEndpoint httpPort="${default.http.port}" id="defaultHttpEndpoint" hosts="*" />
+    <webApplication location="account-service.war" contextRoot="/" />
+    <mpMetrics authentication="false"/>
+
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint" hosts="*" />
 
     <jpa defaultJtaDataSourceJndiName="jdbc/AuthDBDS" entityManagerPoolCapacity="5"/>
     <library id="MARIADBLIB" name="Library for Maria DB">
