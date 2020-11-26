@@ -21,7 +21,8 @@
 	<version.mariadb>2.7.0</version.mariadb>
 	<mariadb.path>${user.home}/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
 	<!-- Liberty configuration -->
-	<liberty.var.default.http.port>8081</liberty.var.default.http.port>
+    <liberty.var.default.http.port>8081</liberty.var.default.http.port>
+    <liberty.var.default.https.port>8082</liberty.var.default.https.port>
 	<!--<liberty.var.app.context.root>api</liberty.var.app.context.root>-->
 	<liberty.var.mariadb.lib>${mariadb.path}/${version.mariadb}/mariadb-java-client-${version.mariadb}.jar</liberty.var.mariadb.lib>
   </properties>
@@ -191,7 +192,7 @@
             <version>2.22.2</version>
             <configuration>
                 <systemPropertyVariables>
-                    <backend.http.port>${backend.service.http.port}</backend.http.port>
+                    <liberty.var.default.http.port>${liberty.var.default.http.port}</liberty.var.default.http.port>
                 </systemPropertyVariables>
             </configuration>
         </plugin>

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 public class HealthResourceTest {
 
     private static String baseUrl;
+    private static String port;
     private static final String HEALTH_ENDPOINT = "/health";
     private static final String LIVENESS_ENDPOINT = "/health/live";
     private static final String READINESS_ENDPOINT = "/health/ready";
@@ -24,7 +25,8 @@ public class HealthResourceTest {
 
     @BeforeAll
     public static void oneTimeSetup() {
-        baseUrl = "http://localhost:8080";
+        port = System.getProperty("default.http.port");
+        baseUrl = "http://localhost:"+ port +"/";
     }
 
     @BeforeEach
