@@ -24,7 +24,7 @@ This software is tested against [openliberty 20.0.0.11](https://openliberty.io/)
 
 # Configuring your webserver
 
-Start by making available, in your lib directory, your database JDBC driver. Once done, here's an example for an openliberty server.xml configuration which will setup this application on `/` on port 9081. It's also assuming that you're using MariaDB and that it's provided in the shared resources folder of the webserver.
+Start by making available, in your lib directory, your database JDBC driver. Once done, here's an example for an openliberty server.xml configuration which will setup this application on `/` on port 8081. It's also assuming that you're using MariaDB and that it's provided in the shared resources folder of the webserver.
 
 ```xml
 <server description="accountService">
