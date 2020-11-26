@@ -11,8 +11,8 @@
         <feature>mpHealth-2.2</feature>
     </featureManager>
 
-    <variable name="default.http.port" defaultValue="8080"/>
-    <variable name="default.https.port" defaultValue="8081"/>
+    <variable name="default.http.port" defaultValue="8081"/>
+    <variable name="default.https.port" defaultValue="8082"/>
 
     <variable name="version.mariadb" defaultValue="2.7.0"/>
     <variable name="mariadb.lib" defaultValue="${shared.resource.dir}/mariadb-java-client-${version.mariadb}.jar"/>

@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>eu.getmangos</groupId>
-  <artifactId>account-service</artifactId>
-  <version>1.0</version>
-  <packaging>war</packaging>
+    <groupId>eu.getmangos</groupId>
+    <artifactId>account-service</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
 
-  <name>account-service</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://localhost:9081</url>
+    <name>account-service</name>
+    <!-- FIXME change it to the project's website -->
+    <url>http://localhost:9081</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>13</maven.compiler.source>
-    <maven.compiler.target>13</maven.compiler.target>
-    <!-- MapStruct -->
-    <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
-    <!-- MariaDB Library -->
-	<version.mariadb>2.7.0</version.mariadb>
-	<mariadb.path>${user.home}/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
-	<!-- Liberty configuration -->
-    <liberty.var.default.http.port>8081</liberty.var.default.http.port>
-    <liberty.var.default.https.port>8082</liberty.var.default.https.port>
-	<!--<liberty.var.app.context.root>api</liberty.var.app.context.root>-->
-	<liberty.var.mariadb.lib>${mariadb.path}/${version.mariadb}/mariadb-java-client-${version.mariadb}.jar</liberty.var.mariadb.lib>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>13</maven.compiler.source>
+        <maven.compiler.target>13</maven.compiler.target>
+        <!-- MapStruct -->
+        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+        <!-- MariaDB Library -->
+        <version.mariadb>2.7.0</version.mariadb>
+        <mariadb.path>${user.home}/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
+        <!-- Liberty configuration -->
+        <liberty.var.default.http.port>8081</liberty.var.default.http.port>
+        <liberty.var.default.https.port>8082</liberty.var.default.https.port>
+        <!--<liberty.var.app.context.root>api</liberty.var.app.context.root>-->
+        <liberty.var.mariadb.lib>${mariadb.path}/${version.mariadb}/mariadb-java-client-${version.mariadb}.jar</liberty.var.mariadb.lib>
+    </properties>
 
-  <dependencies>
-    <!-- Test dependency -->
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>5.6.2</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-client</artifactId>
-        <version>3.3.6</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>3.3.6</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.glassfish</groupId>
-        <artifactId>javax.json</artifactId>
-        <version>1.1.4</version>
-        <scope>test</scope>
-    </dependency>
+    <dependencies>
+        <!-- Test dependency -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.6.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>3.3.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-extension-providers</artifactId>
+            <version>3.3.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.1.4</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Database dependencies -->
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
             <version>${version.mariadb}</version>
             <scope>test</scope>
-		</dependency>
-		<!-- Logging dependencies -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
-		</dependency>
+        </dependency>
+        <!-- Logging dependencies -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
-		<!-- Rest API dependencies -->
+        <!-- Rest API dependencies -->
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
@@ -115,87 +115,84 @@
             <version>${org.mapstruct.version}</version>
         </dependency>
 
-		<!-- Commons -->
-		<dependency>
-			<groupId>commons-validator</groupId>
-			<artifactId>commons-validator</artifactId>
-			<version>1.7</version>
-		</dependency>
+        <!-- Commons -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.7</version>
+        </dependency>
 
-		<!-- Runtime dependencies -->
-		<dependency>
+        <!-- Runtime dependencies -->
+        <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>8.0.0</version>
             <scope>provided</scope>
         </dependency>
 
-   <dependency>
-     <groupId>javax</groupId>
-     <artifactId>javaee-api</artifactId>
-     <version>8.0.1</version>
-     <scope>provided</scope>
-   </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-  <build>
-    <finalName>${project.artifactId}</finalName>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>3.2.3</version>
-        </plugin>
-        <plugin>
-            <groupId>io.openliberty.tools</groupId>
-            <artifactId>liberty-maven-plugin</artifactId>
-            <version>3.1</version>
-            <configuration>
-                <serverName>account-service</serverName>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.1.2</version>
-            <executions>
-                <execution>
-                    <id>copy-mariadb-dependency</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>copy-dependencies</goal>
-                    </goals>
-                    <configuration>
-                        <includeArtifactIds>mariadb-java-client</includeArtifactIds>
-                        <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/</outputDirectory>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
-            <configuration>
-              <reportOutputDirectory>docs</reportOutputDirectory>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.2</version>
-        </plugin>
-        <!-- Plugin to run integration tests -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.22.2</version>
-            <configuration>
-                <systemPropertyVariables>
-                    <liberty.var.default.http.port>${liberty.var.default.http.port}</liberty.var.default.http.port>
-                </systemPropertyVariables>
-            </configuration>
-        </plugin>
-    </plugins>
-  </build>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.3</version>
+            </plugin>
+            <plugin>
+                <groupId>io.openliberty.tools</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <version>3.2.3</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-mariadb-dependency</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>mariadb-java-client</includeArtifactIds>
+                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <reportOutputDirectory>docs</reportOutputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <!-- Plugin to run integration tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <default.http.port>${liberty.var.default.http.port}</default.http.port>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
