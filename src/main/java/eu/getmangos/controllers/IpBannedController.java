@@ -18,7 +18,7 @@ import eu.getmangos.entities.IpBannedId;
 public class IpBannedController {
     @Inject private Logger logger;
 
-    @PersistenceContext(name = "AUTH_PU")
+    @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
     @Transactional

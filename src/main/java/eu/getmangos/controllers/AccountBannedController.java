@@ -19,7 +19,7 @@ public class AccountBannedController {
     @Inject private Logger logger;
     @Inject AccountController accountController;
 
-    @PersistenceContext(name = "AUTH_PU")
+    @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
     @Transactional

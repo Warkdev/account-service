@@ -28,7 +28,7 @@ public class AccountController {
 
     @Inject private AccountBannedController accountBannedController;
 
-    @PersistenceContext(name = "AUTH_PU")
+    @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
     private FlowableEmitter<AccountEventDTO> accountEventEmitter;
