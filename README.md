@@ -20,14 +20,14 @@ First of all, you need to have setup the authentication database and have it ava
 - mpConfig-1.4
 - mpOpenAPI-1.1
 
-This software is tested against [openliberty 20.0.0.11](https://openliberty.io/).
+This software is tested against [openliberty 20.0.0.12](https://openliberty.io/).
 
 # Configuring your webserver
 
 Start by making available, in your lib directory, your database JDBC driver. Once done, here's an example for an openliberty server.xml configuration which will setup this application on `/` on port 8081. It's also assuming that you're using MariaDB and that it's provided in the shared resources folder of the webserver.
 
 ```xml
-<server description="accountService">
+<server description="account-service">
     <featureManager>
         <feature>jaxrs-2.1</feature>
         <feature>jsonp-1.1</feature>
