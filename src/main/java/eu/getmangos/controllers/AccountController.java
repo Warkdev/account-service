@@ -47,6 +47,7 @@ public class AccountController {
             logger.debug("register() exit.");
             throw new DAOException("Username is null or empty.");
         }
+        account.setUsername(account.getUsername().toUpperCase());
         if(search(account.getUsername()) != null) {
             logger.debug("register() exit.");
             throw new DAOException("Account already exist.");
@@ -81,6 +82,7 @@ public class AccountController {
             logger.debug("update() exit.");
             throw new DAOException("Username is null or empty.");
         }
+        account.setUsername(account.getUsername().toUpperCase());
         Account existing = search(account.getUsername());
         if(existing == null) {
             logger.debug("update() exit.");
@@ -152,7 +154,7 @@ public class AccountController {
     public Account search(String name) {
         logger.debug("search() entry.");
         try {
-            Account account = (Account) em.createNamedQuery("Account.findByName").setParameter("name", name).getSingleResult();
+            Account account = (Account) em.createNamedQuery("Account.findByName").setParameter("name", name.toUpperCase()).getSingleResult();
             logger.debug("search() exit.");
             return account;
         } catch (NoResultException nre) {
