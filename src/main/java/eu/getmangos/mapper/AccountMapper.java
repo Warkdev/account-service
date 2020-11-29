@@ -22,7 +22,7 @@ public interface AccountMapper {
     @Mapping(target = "s", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "shaPassHash", ignore = true)
-    Account dtoToEntity(AccountDTO dto);
+    Account map(AccountDTO dto);
 
     @Mapping(source = "account.salt", target = "s")
     @Mapping(source = "account.verifier", target = "v")
@@ -40,7 +40,7 @@ public interface AccountMapper {
     @Mapping(target = "os", ignore = true)
     @Mapping(target = "mutetime", ignore = true)
     @Mapping(target = "playerBot", ignore = true)
-    Account dtoToEntity(RegistrationDTO account);
+    Account map(RegistrationDTO account);
 
     @Mapping(target = "event", source = "event")
     AccountEventDTO map(Account account, AccountEventDTO.Event event);

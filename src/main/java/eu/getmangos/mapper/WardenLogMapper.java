@@ -9,9 +9,9 @@ import eu.getmangos.entities.WardenLog;
 @Mapper(componentModel = "cdi")
 public interface WardenLogMapper {
 
-    WardenLogDTO logToDTO(WardenLog log);
+    WardenLogDTO map(WardenLog log);
 
-    WardenLog dtoToEntity(WardenLogDTO dto);
+    WardenLog map(WardenLogDTO dto);
 
     default WardenActions map(short value) {
         return WardenActions.convert(value);

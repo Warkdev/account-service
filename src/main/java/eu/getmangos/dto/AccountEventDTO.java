@@ -25,5 +25,5 @@ public class AccountEventDTO implements Serializable {
 
     private Integer id;
 
-    private Event event;
+    public Event event;
 }

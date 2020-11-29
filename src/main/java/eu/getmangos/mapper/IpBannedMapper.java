@@ -14,10 +14,10 @@ public interface IpBannedMapper {
 
     @Mapping(source = "ban.id.ip", target = "ip")
     @Mapping(source = "ban.id.banDate", target = "banDate")
-    IpBannedDTO banToDTO(IpBanned ban);
+    IpBannedDTO map(IpBanned ban);
 
     @InheritInverseConfiguration
-    IpBanned dtoToEntity(IpBannedDTO ban);
+    IpBanned map(IpBannedDTO ban);
 
     default Date map(Long value) {
         return new Date(value);
