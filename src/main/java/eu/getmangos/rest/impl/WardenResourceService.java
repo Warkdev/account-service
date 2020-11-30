@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 
-import eu.getmangos.controllers.WardenController;
+import eu.getmangos.dao.WardenDAO;
 import eu.getmangos.dto.CleanupResultDTO;
 import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.dto.WardenLogDTO;
@@ -24,7 +24,7 @@ public class WardenResourceService implements WardenResource {
 
     @Inject private Logger logger;
 
-    @Inject private WardenController controller;
+    @Inject private WardenDAO controller;
 
     @Inject private WardenLogMapper mapper;
 

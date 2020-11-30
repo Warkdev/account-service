@@ -121,19 +121,4 @@ public interface AccountResource {
     )
     @Tag(name = "account")
     public Response deleteAccount(@PathParam("id") Integer id);
-
-    @GET
-    @Path("v1/accounts/challenge/{username}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Challenge user according to SRP6a validation in order to process with authentication")
-    @APIResponses(
-        value = {
-            @APIResponse(description = "A Credential object under the form of a JSON object providing the SRP6a challenge",
-                        content = @Content( mediaType = "application/json",
-                        schema = @Schema(implementation=ServerCredentialsDTO.class))),
-                @APIResponse(responseCode = "404", description = "User not found")
-        }
-    )
-    @Tag(name = "authentication")
-    public Response challenge(@PathParam("username") String username);
 }

@@ -1,33 +1,29 @@
-package eu.getmangos.controllers;
+package eu.getmangos.dao.impl;
 
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import eu.getmangos.dao.AccountBannedDAO;
+import eu.getmangos.dao.AccountDAO;
+import eu.getmangos.dao.DAOException;
 import eu.getmangos.entities.AccountBanned;
 import eu.getmangos.entities.AccountBannedId;
 
-@RequestScoped
-public class AccountBannedController {
+@ApplicationScoped
+public class AccountBannedDAOImpl implements AccountBannedDAO {
     @Inject private Logger logger;
-    @Inject AccountController accountController;
+    @Inject AccountDAO accountController;
 
     @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
-    @Transactional
-    /**
-     * Creates a ban in the dabatase.
-     * @param accountBanned The account to ban.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void create(AccountBanned accountBanned) throws DAOException {
         logger.debug("create() entry.");
         if(accountController.find(accountBanned.getAccountBannedId().getId()) == null) {
@@ -39,12 +35,6 @@ public class AccountBannedController {
         logger.debug("create() exit.");
     }
 
-    @Transactional
-    /**
-     * Updates a ban in the dabatase.
-     * @param accountBanned The ban to edit.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void update(AccountBanned accountBanned) throws DAOException {
         logger.debug("update() entry.");
         AccountBanned existing = find(accountBanned.getAccountBannedId());
@@ -57,12 +47,6 @@ public class AccountBannedController {
         logger.debug("update() exit.");
     }
 
-    @Transactional
-    /**
-     * Delete a ban in the database.
-     * @param id The ID of the ban to be deleted.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void delete(AccountBannedId id) throws DAOException {
         logger.debug("delete() entry.");
 
@@ -77,11 +61,6 @@ public class AccountBannedController {
         logger.debug("delete() exit.");
     }
 
-    /**
-     * Retrieves a ban by its ID.
-     * @param id The ID of the ban
-     * @return The ban if found, null otherwise.
-     */
     public AccountBanned find(AccountBannedId id) {
         logger.debug("find() entry.");
         try {
@@ -95,10 +74,6 @@ public class AccountBannedController {
         }
     }
 
-    /**
-     * Delete all ban records for a given account.
-     * @param accountId The ID of the account for which the ban records needs to be deleted.
-     */
     public void deleteForAccount(Integer accountId) {
         logger.debug("deleteForAccount() entry.");
 
@@ -107,11 +82,6 @@ public class AccountBannedController {
         logger.debug("deleteForAccount() exit.");
     }
 
-    /**
-     * Search all bans for an account.
-     * @param id The id of the account.
-     * @return The matching bans for the given id.
-     */
     public AccountBanned search(Integer id) {
         logger.debug("search() entry.");
         try {
@@ -126,11 +96,6 @@ public class AccountBannedController {
 
     }
 
-    /**
-     * Delete all bans logs from the database which have dead links.
-     * @return An int indicating the amount of records impacted by this operation.
-     */
-    @Transactional
     public int cleanupDeadLinks() {
         logger.debug("cleanupDeadLinks() entry.");
 
@@ -147,19 +112,11 @@ public class AccountBannedController {
         return records;
     }
 
-    /**
-     * Retrieves all bans from the database which are not linked to an account.
-     * @return A list of Bans IDS.
-     */
     @SuppressWarnings("unchecked")
     public List<AccountBannedId> findDeadLinks() {
         return (List<AccountBannedId>) em.createNamedQuery("AccountBanned.findDeadLinks").getResultList();
     }
 
-    /**
-     * Retrieves all bans from the database.
-     * @return A list of Bans.
-     */
     @SuppressWarnings("unchecked")
     public List<AccountBanned> findAll() {
         return (List<AccountBanned>) em.createNamedQuery("AccountBanned.findAll").getResultList();

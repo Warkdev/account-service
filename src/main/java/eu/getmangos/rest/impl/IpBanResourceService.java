@@ -11,8 +11,8 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 
-import eu.getmangos.controllers.DAOException;
-import eu.getmangos.controllers.IpBannedController;
+import eu.getmangos.dao.DAOException;
+import eu.getmangos.dao.IpBannedDAO;
 import eu.getmangos.dto.IpBannedDTO;
 import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.entities.IpBanned;
@@ -26,7 +26,7 @@ public class IpBanResourceService implements IpBanResource {
 
     @Inject private Logger logger;
 
-    @Inject private IpBannedController controller;
+    @Inject private IpBannedDAO controller;
 
     @Inject private IpBannedMapper mapper;
 

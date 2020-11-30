@@ -10,8 +10,8 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 
-import eu.getmangos.controllers.AccountController;
-import eu.getmangos.controllers.DAOException;
+import eu.getmangos.dao.AccountDAO;
+import eu.getmangos.dao.DAOException;
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
@@ -25,7 +25,7 @@ public class AccountResourceService implements AccountResource {
 
     @Inject private Logger logger;
 
-    @Inject private AccountController controller;
+    @Inject private AccountDAO controller;
 
     @Inject private AccountMapper mapper;
 
@@ -91,14 +91,6 @@ public class AccountResourceService implements AccountResource {
                 return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
         return Response.status(204).build();
-    }
-
-    @Override
-    public Response challenge(String username) {
-        logger.debug("challenge() entry.");
-
-        logger.debug("challenge() exit.");
-        return Response.status(200).build();
     }
 
 }

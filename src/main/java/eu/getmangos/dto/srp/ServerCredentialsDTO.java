@@ -1,16 +1,17 @@
 package eu.getmangos.dto.srp;
 
-import javax.validation.constraints.NotNull;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter @AllArgsConstructor
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class ServerCredentialsDTO {
-    @NotNull
+    @Schema(description = "The salt for the authentication challenge")
     private String salt;
 
-    @NotNull
+    @Schema(description = "The B value calculated by the server")
     private String B;
 }

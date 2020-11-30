@@ -8,97 +8,143 @@
     <packaging>war</packaging>
 
     <name>account-service</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://localhost:9081</url>
+    <url>https://github.com/Warkdev/account-service</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Java version -->
         <maven.compiler.source>13</maven.compiler.source>
         <maven.compiler.target>13</maven.compiler.target>
         <!-- MapStruct -->
-        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
         <!-- MariaDB Library -->
-        <version.mariadb>2.7.0</version.mariadb>
+        <mariadb.version>2.7.0</mariadb.version>
         <mariadb.path>${user.home}/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
+        <!-- JUnit -->
+        <junit.version>5.6.2</junit.version>
+        <!-- Microshed -->
+        <microshed.version>0.9.1</microshed.version>
+        <!-- Jakarta -->
+        <jakarta.version>8.0.0</jakarta.version>
+        <javaee.version>8.0.1</javaee.version>
+        <!-- Microprofile -->
+        <mp.version>3.3</mp.version>
+        <!-- JAX RS Client -->
+        <jaxrs-client.version>3.3.6</jaxrs-client.version>
+        <!-- Rqsl -->
+        <rqsl.version>2.1.0</rqsl.version>
+        <!-- JSON -->
+        <json.version>1.1.4</json.version>
+        <!-- Logback -->
+        <logback.version>1.2.3</logback.version>
+        <!-- Kafka -->
+        <kafka.version>2.4.0</kafka.version>
+        <reactive.version>1.0</reactive.version>
+        <rxjava.version>3.0.0</rxjava.version>
+        <!-- Lombok -->
+        <lombok.version>1.18.16</lombok.version>
+        <!-- Commons -->
+        <commons.version>1.7</commons.version>
         <!-- Liberty configuration -->
         <liberty.var.default.http.port>8081</liberty.var.default.http.port>
         <liberty.var.default.https.port>8082</liberty.var.default.https.port>
         <!--<liberty.var.app.context.root>api</liberty.var.app.context.root>-->
-        <liberty.var.mariadb.lib>${mariadb.path}/${version.mariadb}/mariadb-java-client-${version.mariadb}.jar</liberty.var.mariadb.lib>
+        <liberty.var.mariadb.lib>${mariadb.path}/${mariadb.version}/mariadb-java-client-${mariadb.version}.jar</liberty.var.mariadb.lib>
     </properties>
+
+    <developers>
+        <developer>
+            <id>Talendrys</id>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
 
     <dependencies>
         <!-- Test dependency -->
         <dependency>
+            <groupId>org.microshed</groupId>
+            <artifactId>microshed-testing-testcontainers</artifactId>
+            <version>${microshed.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.6.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.3.6</version>
+            <version>${jaxrs-client.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-extension-providers</artifactId>
-            <version>3.3.6</version>
+            <version>${jaxrs-client.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
-            <version>1.1.4</version>
+            <version>${json.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Database dependencies -->
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>${version.mariadb}</version>
+            <version>${mariadb.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Logging dependencies -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>${logback.version}</version>
         </dependency>
 
         <!-- Rest API dependencies -->
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
-            <version>3.3</version>
+            <version>${mp.version}</version>
             <type>pom</type>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cz.jirutka.rsql</groupId>
+            <artifactId>rsql-parser</artifactId>
+            <version>${rqsl.version}</version>
         </dependency>
 
         <!-- Apache Kafka -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
-            <version>2.4.0</version>
+            <version>${kafka.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
             <artifactId>microprofile-reactive-messaging-api</artifactId>
-            <version>1.0</version>
+            <version>${reactive.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.reactivex.rxjava3</groupId>
             <artifactId>rxjava</artifactId>
-            <version>3.0.0</version>
+            <version>${rxjava.version}</version>
         </dependency>
 
         <!-- Lombok ! -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -106,34 +152,34 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
+            <version>${mapstruct.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>${org.mapstruct.version}</version>
+            <version>${mapstruct.version}</version>
         </dependency>
 
         <!-- Commons -->
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
-            <version>1.7</version>
+            <version>${commons.version}</version>
         </dependency>
 
         <!-- Runtime dependencies -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>8.0.0</version>
+            <version>${jakarta.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0.1</version>
+            <version>${javaee.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

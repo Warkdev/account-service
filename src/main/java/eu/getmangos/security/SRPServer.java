@@ -1,18 +1,29 @@
-package eu.getmangos.controllers;
+package eu.getmangos.security;
 
-import eu.getmangos.utils.BigNumber;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
+
+import eu.getmangos.utils.BigNumber;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * SRPServer is an helper class to handle SRP6 calculation and hashing methods
  * for WoW client since it deviates from the original SRP6 specification..
  *
- * @author Warkdev
- * @version v0.1 BETA.
+ * @author Talendrys
+ * @version v1.0.
  */
-public class SRPServerController {
-
+@ApplicationScoped
+@Named("srpServer")
+@Getter @Setter @ToString @NoArgsConstructor
+public class SRPServer {
     /**
      * N is a safe-prime of 32 bytes length. Equals to
      * 894B645E89E1535BBDAD5B8B290650530801B18EBFBF5E8FAB3C82872A3E9BB7.
@@ -64,11 +75,6 @@ public class SRPServerController {
     private BigNumber x; // Intermediate verifier
 
     /**
-     * hashpass is the H(I | ":" | p) hash using SHA1.
-     */
-    private byte[] hashpass;
-
-    /**
      * M2 is the server proof to show the client that the server knows the
      * password.
      */
@@ -92,121 +98,13 @@ public class SRPServerController {
     // Cryptographic digest.
     private MessageDigest md;
 
-    /**
-     * Constructor of SRPServer
-     *
-     * @param hashpass hashpass of the account
-     * @param account account name
-     */
-    public SRPServerController(String hashpass, String account) {
+    @PostConstruct
+    private void init() {
         try {
             md = MessageDigest.getInstance("SHA1");
         } catch (NoSuchAlgorithmException ex) {
             System.out.println("No such algorithm available");
         }
-
-        this.hashpass = new BigNumber(hashpass).asByteArray(0, false);
-        this.I = account.getBytes();
-    }
-
-    public static BigNumber getN() {
-        return N;
-    }
-
-    public static BigNumber getG() {
-        return g;
-    }
-
-    public static BigNumber getK() {
-        return k;
-    }
-
-    public BigNumber getSessionKey() {
-        return K;
-    }
-
-    public BigNumber getS() {
-        return s;
-    }
-
-    public BigNumber getX() {
-        return x;
-    }
-
-    public byte[] getHashpass() {
-        return hashpass;
-    }
-
-    public BigNumber getV() {
-        return v;
-    }
-
-    public void setV(BigNumber v) {
-        this.v = v;
-    }
-
-    public BigNumber getGmod() {
-        return gmod;
-    }
-
-    public void setX(BigNumber x) {
-        this.x = x;
-    }
-
-    public void setHashpass(byte[] hashpass) {
-        this.hashpass = hashpass;
-    }
-
-    public void setS(BigNumber S) {
-        this.S = S;
-    }
-
-    public void setK(BigNumber K) {
-        this.K = K;
-    }
-
-    public void setGmod(BigNumber gmod) {
-        this.gmod = gmod;
-    }
-
-    public BigNumber getB() {
-        return B;
-    }
-
-    public BigNumber getSalt() {
-        return this.s;
-    }
-
-    public void setSalt(BigNumber salt) {
-        this.s = salt;
-    }
-
-    public void setB(BigNumber B) {
-        this.B = B;
-    }
-
-    public byte[] getI() {
-        return I;
-    }
-
-    public void setI(byte[] I) {
-        this.I = I;
-    }
-
-    public BigNumber getM2() {
-        return M2;
-    }
-
-    public void setM2(BigNumber M2) {
-        this.M2 = M2;
-    }
-
-    public MessageDigest getMd() {
-        return md;
-    }
-
-    public void setMd(MessageDigest md) {
-        this.md = md;
     }
 
     /**
@@ -223,38 +121,13 @@ public class SRPServerController {
     }
 
     /**
-     * Generates a new Password Verifier based on known parameters as in SRP6
-     * implementation.
-     *
-     * @return The BigNumber generated Verifier.
-     */
-    public BigNumber generateV() {
-        if (this.v == null) {
-            this.x = new BigNumber();
-
-            this.x = new BigNumber();
-            // Generate x - the Private key
-            this.md.update(s.asByteArray(32));
-            this.md.update(this.hashpass);
-            this.x.setBinary(this.md.digest());
-
-            // Generate the verifier
-            if (this.v == null) {
-                this.v = g.modPow(this.x, N);
-            }
-        }
-
-        return this.v;
-    }
-
-    /**
      * Performs the first step of the authentication challenge, generating the
      * server public value.
      */
     public void step1() {
         // Generate B - The server public value - (k.v + g^b)
-        this.gmod = g.modPow(this.b, N);
-        this.B = (this.v.multiply(k).add(this.gmod)).remainder(N);
+        this.gmod = this.g.modPow(this.b, this.N);
+        this.B = (this.v.multiply(this.k).add(this.gmod)).remainder(this.N);
     }
 
     /**
@@ -275,7 +148,7 @@ public class SRPServerController {
         u.setBinary(this.md.digest());
 
         // Generate S - the Session key - (A.v^u)^b
-        this.S = (A.multiply(this.v.modPow(u, N))).modPow(this.b, N);
+        this.S = (A.multiply(this.v.modPow(u, this.N))).modPow(this.b, this.N);
 
         // Generate vK - the hashed session key, hashed with H hash function
         byte[] t = this.S.asByteArray(32);
@@ -306,11 +179,11 @@ public class SRPServerController {
         // generating M - the server's SRP6 M value
         // Formula: H(H(N)^H(g),H(I),s,A,B,K)
         // H(N)
-        this.md.update(N.asByteArray(32));
+        this.md.update(this.N.asByteArray(32));
         byte[] hash = this.md.digest();
 
         // H(g)
-        this.md.update(g.asByteArray(1));
+        this.md.update(this.g.asByteArray(1));
         digest = this.md.digest();
 
         // H(N)^H(g)
@@ -369,25 +242,4 @@ public class SRPServerController {
         return this.md.digest();
     }
 
-    @Override
-    public String toString() {
-        String toString = "";
-
-        toString += "N: " + N.toHexString() + "\n";
-        toString += "g: " + g.toHexString() + "\n";
-        toString += "k: " + k.toHexString() + "\n";
-
-        toString += "s: " + this.s.toHexString() + "\n";
-        toString += "v: " + this.v.toHexString() + "\n";
-        toString += "gmod: " + this.gmod.toHexString() + "\n";
-        toString += "B: " + this.B.toHexString() + "\n";
-        //toString += "x: "+this.x.toHexString()+"\n";
-        toString += "hashpass: " + new BigNumber(this.hashpass).toHexString() + "\n";
-        toString += "M2: " + this.M2.toHexString() + "\n";
-        toString += "S: " + this.S.toHexString() + "\n";
-        toString += "K: " + this.K.toHexString() + "\n";
-        toString += "I: " + new BigNumber(this.I).toHexString() + "\n";
-
-        return toString;
-    }
 }

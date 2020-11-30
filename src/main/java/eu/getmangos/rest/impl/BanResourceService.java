@@ -11,8 +11,8 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 
-import eu.getmangos.controllers.AccountBannedController;
-import eu.getmangos.controllers.DAOException;
+import eu.getmangos.dao.AccountBannedDAO;
+import eu.getmangos.dao.DAOException;
 import eu.getmangos.dto.BansDTO;
 import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.entities.AccountBanned;
@@ -26,7 +26,7 @@ public class BanResourceService implements BanResource {
 
     @Inject private Logger logger;
 
-    @Inject private AccountBannedController controller;
+    @Inject private AccountBannedDAO controller;
 
     @Inject private BanMapper mapper;
 

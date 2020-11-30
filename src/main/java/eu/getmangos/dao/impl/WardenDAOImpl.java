@@ -1,8 +1,8 @@
-package eu.getmangos.controllers;
+package eu.getmangos.dao.impl;
 
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -11,19 +11,16 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import eu.getmangos.dao.WardenDAO;
 import eu.getmangos.entities.WardenLog;
 
-@RequestScoped
-public class WardenController {
+@ApplicationScoped
+public class WardenDAOImpl implements WardenDAO {
     @Inject private Logger logger;
 
     @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
-    /**
-     * Retrieves all warden logs from the database.
-     * @return A list of records containing the warden logs for all servers.
-     */
     @SuppressWarnings("unchecked")
     public List<WardenLog> getAllLogs() {
         logger.debug("getAllLogs() entry.");
@@ -34,11 +31,6 @@ public class WardenController {
         return logsList;
     }
 
-    /**
-     * Delete all warden logs from the database which have dead links.
-     * @return A list of records containing the warden logs for all servers.
-     */
-    @Transactional
     public int cleanupDeadLinks() {
         logger.debug("cleanupDeadLinks() entry.");
 
@@ -54,10 +46,6 @@ public class WardenController {
         return records;
     }
 
-    /**
-     * Retrieves all warden logs from the database which have dead links.
-     * @return A list of records containing the warden logs for all servers.
-     */
     @SuppressWarnings("unchecked")
     public List<WardenLog> findDeadLinks() {
         logger.debug("findDeadLinks() entry.");
@@ -68,11 +56,6 @@ public class WardenController {
         return logsList;
     }
 
-    /**
-     * Retrieves a log entry by its id.
-     * @param entry The log entry id.
-     * @return The log entry.
-     */
     public WardenLog search(Integer entry) {
         logger.debug("search() entry");
         try {
@@ -86,10 +69,6 @@ public class WardenController {
         }
     }
 
-    /**
-     * Delete warden logs for the given id.
-     * @param entry The Id of the log to be deleted.
-     */
     @Transactional
     public void delete(Integer entry) {
         logger.debug("delete() entry.");
@@ -102,10 +81,6 @@ public class WardenController {
         logger.debug("delete() exit.");
     }
 
-    /**
-     * Delete warden logs for the given account id.
-     * @param accountId The Id of the account for which the logs needs to be deleted.
-     */
     @Transactional
     public void deleteLogsForAccount(Integer accountId) {
         logger.debug("deleteLogsForAccount() entry.");
@@ -117,11 +92,6 @@ public class WardenController {
         logger.debug("deleteLogsForAccount() exit.");
     }
 
-    /**
-     * Retrieves all warden logs from the database for a given account.
-     * @param accountId The Id of the account for which the warden logs needs to be retrieved.
-     * @return A list of records containing the logs for a single account.
-     */
     @SuppressWarnings("unchecked")
     public List<WardenLog> getWardenLogForAccount(Integer accountId) {
         logger.debug("getWardenLogForAccount() entry.");

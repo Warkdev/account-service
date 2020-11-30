@@ -1,4 +1,4 @@
-package eu.getmangos.controllers;
+package eu.getmangos.dao.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -11,10 +11,12 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import eu.getmangos.dao.AccountBannedDAO;
+import eu.getmangos.dao.AccountDAO;
+import eu.getmangos.dao.DAOException;
 import eu.getmangos.dto.AccountEventDTO;
 import eu.getmangos.entities.Account;
 import eu.getmangos.mapper.AccountMapper;
@@ -23,10 +25,10 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.FlowableEmitter;
 
 @ApplicationScoped
-public class AccountController {
+public class AccountDAOImpl implements AccountDAO {
     @Inject private Logger logger;
 
-    @Inject private AccountBannedController accountBannedController;
+    @Inject private AccountBannedDAO accountBannedController;
 
     @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
@@ -35,12 +37,6 @@ public class AccountController {
 
     @Inject private AccountMapper mapper;
 
-    @Transactional
-    /**
-     * Creates an account in the dabatase.
-     * @param account The account to create.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void register(Account account) throws DAOException {
         logger.debug("register() entry.");
         if(account.getUsername().isBlank()) {
@@ -70,12 +66,6 @@ public class AccountController {
         logger.debug("register() exit.");
     }
 
-    @Transactional
-    /**
-     * Updates an account in the dabatase.
-     * @param account The account to edit.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void update(Account account) throws DAOException {
         logger.debug("update() entry.");
         if(account.getUsername().isBlank()) {
@@ -97,12 +87,6 @@ public class AccountController {
         logger.debug("update() exit.");
     }
 
-    /**
-     * Delete an account in the database. This method will also delete all links with the bans for this account.
-     * @param id The ID of the account to be deleted.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
-    @Transactional
     public void delete(Integer id) throws DAOException {
         logger.debug("delete() entry.");
 
@@ -129,28 +113,19 @@ public class AccountController {
         return flowable;
     }
 
-    /**
-     * Retrieves an account by its ID.
-     * @param id The ID of the account
-     * @return The account if found, null otherwise.
-     */
     public Account find(Integer id) {
+        logger.debug("find() entry.");
         try {
             Account account = (Account) em.createNamedQuery("Account.findById").setParameter("id", id).getSingleResult();
-            logger.debug("search() exit.");
+            logger.debug("find() exit.");
             return account;
         } catch (NoResultException nre) {
             logger.debug("No account found with this id.");
-            logger.debug("search() exit.");
+            logger.debug("find() exit.");
             return null;
         }
     }
 
-    /**
-     * Search an account by its name
-     * @param name The name of the account.
-     * @return The matching account for the given name.
-     */
     public Account search(String name) {
         logger.debug("search() entry.");
         try {
@@ -164,11 +139,6 @@ public class AccountController {
         }
     }
 
-    /**
-     * Search an account by its email address
-     * @param email The email of the account.
-     * @return The matching account for the given email.
-     */
     public Account searchByEmail(String email) {
         logger.debug("searchByEmail() entry.");
         try {
@@ -183,12 +153,10 @@ public class AccountController {
 
     }
 
-    /**
-     * Retrieves all accounts from the database.
-     * @return A list of Account.
-     */
     @SuppressWarnings("unchecked")
     public List<Account> findAll() {
+        logger.debug("findAll() entry.");
+        logger.debug("findAll() exit.");
         return (List<Account>) em.createNamedQuery("Account.findAll").getResultList();
     }
 }

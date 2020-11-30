@@ -1,32 +1,27 @@
-package eu.getmangos.controllers;
+package eu.getmangos.dao.impl;
 
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 
+import eu.getmangos.dao.DAOException;
+import eu.getmangos.dao.IpBannedDAO;
 import eu.getmangos.entities.IpBanned;
 import eu.getmangos.entities.IpBannedId;
 
-@RequestScoped
-public class IpBannedController {
+@ApplicationScoped
+public class IpBannedDAOImpl implements IpBannedDAO {
     @Inject private Logger logger;
 
     @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
-    @Transactional
-    /**
-     * Creates a ban ip in the dabatase.
-     * @param ipBanned The ip to ban.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void create(IpBanned ipBanned) throws DAOException {
         logger.debug("create() entry.");
         ipBanned.getId().setBanDate(System.currentTimeMillis());
@@ -34,12 +29,6 @@ public class IpBannedController {
         logger.debug("create() exit.");
     }
 
-    @Transactional
-    /**
-     * Updates an ip ban in the dabatase.
-     * @param ipBanned The ban to edit.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void update(IpBanned ipBanned) throws DAOException {
         logger.debug("update() entry.");
         IpBanned existing = find(ipBanned.getId());
@@ -52,12 +41,6 @@ public class IpBannedController {
         logger.debug("update() exit.");
     }
 
-    @Transactional
-    /**
-     * Delete a ban in the database.
-     * @param id The ID of the ban to be deleted.
-     * @throws DAOException Send a DAOException if something happened during the data validation.
-     */
     public void delete(IpBannedId id) throws DAOException {
         logger.debug("delete() entry.");
 
@@ -72,11 +55,6 @@ public class IpBannedController {
         logger.debug("delete() exit.");
     }
 
-    /**
-     * Retrieves a ban by its ID.
-     * @param id The ID of the ban
-     * @return The ban if found, null otherwise.
-     */
     public IpBanned find(IpBannedId id) {
         try {
             IpBanned ipBanned = (IpBanned) em.createNamedQuery("IpBanned.findById").setParameter("id", id).getSingleResult();
@@ -89,11 +67,6 @@ public class IpBannedController {
         }
     }
 
-    /**
-     * Search all bans for an ip.
-     * @param ip The ip.
-     * @return The matching bans for the given ip.
-     */
     public IpBanned search(Integer ip) {
         logger.debug("search() entry.");
         try {
@@ -108,10 +81,6 @@ public class IpBannedController {
 
     }
 
-    /**
-     * Retrieves all ban ip from the database.
-     * @return A list of Bans.
-     */
     @SuppressWarnings("unchecked")
     public List<IpBanned> findAll() {
         return (List<IpBanned>) em.createNamedQuery("IpBanned.findAll").getResultList();
