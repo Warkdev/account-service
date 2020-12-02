@@ -24,7 +24,6 @@ import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.Node;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import cz.jirutka.rsql.parser.ast.RSQLVisitor;
-import cz.jirutka.rsql.parser.ast.UnaryComparisonOperator;
 import eu.getmangos.dao.AccountBannedDAO;
 import eu.getmangos.dao.AccountDAO;
 import eu.getmangos.dao.DAOException;
