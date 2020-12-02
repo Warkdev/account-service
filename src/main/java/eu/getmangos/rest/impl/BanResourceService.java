@@ -16,7 +16,6 @@ import eu.getmangos.dao.DAOException;
 import eu.getmangos.dto.BansDTO;
 import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.entities.AccountBanned;
-import eu.getmangos.entities.AccountBannedId;
 import eu.getmangos.mapper.BanMapper;
 import eu.getmangos.rest.BanResource;
 
@@ -38,7 +37,7 @@ public class BanResourceService implements BanResource {
                 return Response.status(500).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
-        BansDTO ban = mapper.map(controller.find(new AccountBannedId(id, banDate.getTime())));
+        BansDTO ban = mapper.map(controller.find(id, banDate.getTime()));
 
         if(ban == null) {
                 return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
@@ -78,8 +77,7 @@ public class BanResourceService implements BanResource {
     public Response editBan(Integer id, Date banDate, BansDTO entity) {
         try {
                 AccountBanned ban = mapper.map(entity);
-                ban.setAccountBannedId(new AccountBannedId(id, banDate.getTime()));
-                this.controller.update(ban);
+                this.controller.update(id, banDate.getTime(), ban);
         } catch (DAOException daoEx) {
                 return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
@@ -91,7 +89,7 @@ public class BanResourceService implements BanResource {
     @Override
     public Response deleteBan(Integer id, Date banDate) {
         try {
-                this.controller.delete(new AccountBannedId(id, banDate.getTime()));
+                this.controller.delete(id, banDate.getTime());
         } catch (DAOException daoEx) {
                 return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {

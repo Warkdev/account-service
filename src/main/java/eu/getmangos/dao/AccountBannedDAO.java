@@ -5,7 +5,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import eu.getmangos.entities.AccountBanned;
-import eu.getmangos.entities.AccountBannedId;
 
 public interface AccountBannedDAO {
 
@@ -20,10 +19,12 @@ public interface AccountBannedDAO {
     @Transactional
     /**
      * Updates a ban in the dabatase.
+     * @param id The ID of the ban.
+     * @param date The date of the ban.
      * @param accountBanned The ban to edit.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
-    public void update(AccountBanned accountBanned) throws DAOException;
+    public void update(Integer id, long date, AccountBanned accountBanned) throws DAOException;
 
     @Transactional
     /**
@@ -31,14 +32,14 @@ public interface AccountBannedDAO {
      * @param id The ID of the ban to be deleted.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
-    public void delete(AccountBannedId id) throws DAOException;
+    public void delete(Integer id, long date) throws DAOException;
 
     /**
      * Retrieves a ban by its ID.
      * @param id The ID of the ban
      * @return The ban if found, null otherwise.
      */
-    public AccountBanned find(AccountBannedId id);
+    public AccountBanned find(Integer id, long date);
 
     @Transactional
     /**
@@ -65,7 +66,7 @@ public interface AccountBannedDAO {
      * Retrieves all bans from the database which are not linked to an account.
      * @return A list of Bans IDS.
      */
-    public List<AccountBannedId> findDeadLinks();
+    public List<AccountBanned.PrimaryKeys> findDeadLinks();
 
     /**
      * Retrieves all bans from the database.

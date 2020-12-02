@@ -40,6 +40,13 @@ public interface AccountDAO {
     public Account find(Integer id);
 
     /**
+     * Retrieves a list of accounts based on the provided query string.
+     * @param qryString The query String
+     * @return A list of accounts matching the criteria.
+     */
+    public List<Account> findBy(String qryString, Integer page, Integer pageSize);
+
+    /**
      * Search an account by its name
      * @param name The name of the account.
      * @return The matching account for the given name.
@@ -57,5 +64,5 @@ public interface AccountDAO {
      * Retrieves all accounts from the database.
      * @return A list of Account.
      */
-    public List<Account> findAll();
+    public List<Account> findAll(Integer page, Integer pageSize);
 }

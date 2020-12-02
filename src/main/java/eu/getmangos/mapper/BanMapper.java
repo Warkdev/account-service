@@ -12,8 +12,8 @@ import eu.getmangos.entities.AccountBanned;
 @Mapper(componentModel = "cdi")
 public interface BanMapper {
 
-    @Mapping(source = "ban.accountBannedId.id", target = "id")
-    @Mapping(source = "ban.accountBannedId.banDate", target = "date")
+    @Mapping(source = "ban.accountBannedPK.id", target = "id")
+    @Mapping(source = "ban.accountBannedPK.banDate", target = "date")
     BansDTO map(AccountBanned ban);
 
     @InheritInverseConfiguration

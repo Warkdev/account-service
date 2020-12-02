@@ -1,7 +1,9 @@
 package eu.getmangos.dao.impl;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.reactivestreams.Publisher;
@@ -11,9 +13,18 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
+
+import com.github.tennaito.rsql.jpa.JpaCriteriaQueryVisitor;
 
 import org.slf4j.Logger;
 
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.ast.ComparisonOperator;
+import cz.jirutka.rsql.parser.ast.Node;
+import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import cz.jirutka.rsql.parser.ast.RSQLVisitor;
+import cz.jirutka.rsql.parser.ast.UnaryComparisonOperator;
 import eu.getmangos.dao.AccountBannedDAO;
 import eu.getmangos.dao.AccountDAO;
 import eu.getmangos.dao.DAOException;
@@ -126,6 +137,25 @@ public class AccountDAOImpl implements AccountDAO {
         }
     }
 
+    public List<Account> findBy(String qryString, Integer page, Integer pageSize) {
+        logger.debug("findBy() entry.");
+        RSQLVisitor<CriteriaQuery<Account>, EntityManager> visitor = new JpaCriteriaQueryVisitor<>();
+
+        CriteriaQuery<Account> query;
+        query = getCriteriaQuery(qryString, visitor);
+        logger.debug("Search query: "+query);
+        List<Account> list = em.createQuery(query)
+                                .setFirstResult((page - 1) * pageSize)
+                                .setMaxResults(pageSize)
+                                .getResultList();
+        if (list == null || list.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        logger.debug("findBy() exit.");
+        return list;
+    }
+
     public Account search(String name) {
         logger.debug("search() entry.");
         try {
@@ -154,9 +184,28 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Account> findAll() {
+    public List<Account> findAll(Integer page, Integer pageSize) {
         logger.debug("findAll() entry.");
         logger.debug("findAll() exit.");
-        return (List<Account>) em.createNamedQuery("Account.findAll").getResultList();
+        return (List<Account>) em.createNamedQuery("Account.findAll")
+                                .setFirstResult((page - 1) * pageSize)
+                                .setMaxResults(pageSize)
+                                .getResultList();
+    }
+
+    private <T> CriteriaQuery<T> getCriteriaQuery(String queryString, RSQLVisitor<CriteriaQuery<T>, EntityManager> visitor) {
+        Node rootNode;
+        CriteriaQuery<T> query;
+        Set<ComparisonOperator> operators = RSQLOperators.defaultComparisonOperators();
+        try {
+            logger.debug(String.format("Query: %s", queryString));
+            rootNode = new RSQLParser(operators, RSQLOperators.defaultUnaryOperator()).parse(queryString);
+            query = rootNode.accept(visitor, em);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("An error happened while executing RSQL query", e);
+            throw new IllegalArgumentException(e.getMessage());
+        }
+        return query;
     }
 }

@@ -14,7 +14,6 @@ import eu.getmangos.dao.AccountBannedDAO;
 import eu.getmangos.dao.AccountDAO;
 import eu.getmangos.dao.DAOException;
 import eu.getmangos.entities.AccountBanned;
-import eu.getmangos.entities.AccountBannedId;
 
 @ApplicationScoped
 public class AccountBannedDAOImpl implements AccountBannedDAO {
@@ -26,31 +25,33 @@ public class AccountBannedDAOImpl implements AccountBannedDAO {
 
     public void create(AccountBanned accountBanned) throws DAOException {
         logger.debug("create() entry.");
-        if(accountController.find(accountBanned.getAccountBannedId().getId()) == null) {
+        if(accountController.find(accountBanned.getAccountBannedPK().getId()) == null) {
             logger.debug("create() exit.");
             throw new DAOException("Account doesn't exist.");
         }
-        accountBanned.getAccountBannedId().setBanDate(System.currentTimeMillis());
+        accountBanned.getAccountBannedPK().setBanDate(System.currentTimeMillis());
         em.persist(accountBanned);
         logger.debug("create() exit.");
     }
 
-    public void update(AccountBanned accountBanned) throws DAOException {
+    public void update(Integer id, long date, AccountBanned accountBanned) throws DAOException {
         logger.debug("update() entry.");
-        AccountBanned existing = find(accountBanned.getAccountBannedId());
+        AccountBanned existing = find(id, date);
         if(existing == null) {
             logger.debug("update() exit.");
             throw new DAOException("Ban doesn't exist.");
         }
 
+        accountBanned.setAccountBannedPK(existing.getAccountBannedPK());
+
         em.merge(accountBanned);
         logger.debug("update() exit.");
     }
 
-    public void delete(AccountBannedId id) throws DAOException {
+    public void delete(Integer id, long date) throws DAOException {
         logger.debug("delete() entry.");
 
-        AccountBanned accountBanned = find(id);
+        AccountBanned accountBanned = find(id, date);
         if(accountBanned == null) {
             logger.debug("delete() exit.");
             throw new DAOException("The ban doesn't exist");
@@ -61,10 +62,10 @@ public class AccountBannedDAOImpl implements AccountBannedDAO {
         logger.debug("delete() exit.");
     }
 
-    public AccountBanned find(AccountBannedId id) {
+    public AccountBanned find(Integer id, long date) {
         logger.debug("find() entry.");
         try {
-            AccountBanned accountBanned = (AccountBanned) em.createNamedQuery("AccountBanned.findById").setParameter("id", id).getSingleResult();
+            AccountBanned accountBanned = (AccountBanned) em.createNamedQuery("AccountBanned.findById").setParameter("id", new AccountBanned.PrimaryKeys(id, date)).getSingleResult();
             logger.debug("find() exit.");
             return accountBanned;
         } catch (NoResultException nre) {
@@ -99,7 +100,7 @@ public class AccountBannedDAOImpl implements AccountBannedDAO {
     public int cleanupDeadLinks() {
         logger.debug("cleanupDeadLinks() entry.");
 
-        List<AccountBannedId> bans = findDeadLinks();
+        List<AccountBanned.PrimaryKeys> bans = findDeadLinks();
 
         int records = 0;
         if(bans.size() > 0) {
@@ -113,8 +114,8 @@ public class AccountBannedDAOImpl implements AccountBannedDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public List<AccountBannedId> findDeadLinks() {
-        return (List<AccountBannedId>) em.createNamedQuery("AccountBanned.findDeadLinks").getResultList();
+    public List<AccountBanned.PrimaryKeys> findDeadLinks() {
+        return (List<AccountBanned.PrimaryKeys>) em.createNamedQuery("AccountBanned.findDeadLinks").getResultList();
     }
 
     @SuppressWarnings("unchecked")

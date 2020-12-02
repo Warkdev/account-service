@@ -36,7 +36,7 @@ public class AccountResourceService implements AccountResource {
                 return Response.status(500).entity("The provided ID is null.").build();
         }
 
-        AccountDTO account = mapper.accountToDTO(controller.find(id));
+        AccountDTO account = mapper.map(controller.find(id));
 
         if(account == null) {
                 return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
@@ -46,15 +46,35 @@ public class AccountResourceService implements AccountResource {
         return Response.status(200).entity(account).build();
     }
 
-    public Response findAllAccounts() {
-        logger.debug("findAll() entry.");
+    public Response findBy(String qryString, Integer page, Integer pageSize) {
+        logger.debug("findBy() entry.");
 
-        List<AccountDTO> listAccounts = new ArrayList<>();
-        for(Account a : this.controller.findAll()) {
-            listAccounts.add(mapper.accountToDTO(a));
+        if  (page == null) {
+            page = 1;
         }
 
-        logger.debug("findAll() exit.");
+        if  (pageSize == null || pageSize < 0 || pageSize > 100) {
+            pageSize = 100;
+        }
+
+        List<AccountDTO> listAccounts = new ArrayList<>();
+
+        try {
+            if (qryString == null || qryString.isEmpty()) {
+                for(Account a : this.controller.findAll(page, pageSize)) {
+                    listAccounts.add(mapper.map(a));
+                }
+            } else {
+                for(Account a : this.controller.findBy(qryString, page, pageSize)) {
+                    listAccounts.add(mapper.map(a));
+                }
+            }
+        } catch (IllegalArgumentException iae) {
+            logger.error("Error while retrieving the data from the database: "+iae.getMessage());
+            return Response.status(400).entity(new MessageDTO("Something went wrong with your request, check your query filter.")).build();
+        }
+
+        logger.debug("findBy() exit.");
         return Response.status(200).entity(listAccounts).build();
     }
 

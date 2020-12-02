@@ -1,6 +1,7 @@
 package eu.getmangos.mapper;
 
 import java.util.Date;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,7 +17,7 @@ import eu.getmangos.entities.Account;
 @Mapper(componentModel = "cdi")
 public interface AccountMapper {
 
-    AccountDTO accountToDTO(Account account);
+    AccountDTO map(Account account);
 
     @Mapping(target = "v", ignore = true)
     @Mapping(target = "s", ignore = true)
@@ -41,6 +42,8 @@ public interface AccountMapper {
     @Mapping(target = "mutetime", ignore = true)
     @Mapping(target = "playerBot", ignore = true)
     Account map(RegistrationDTO account);
+
+    List<AccountDTO> map(List<Account> list);
 
     @Mapping(target = "event", source = "event")
     AccountEventDTO map(Account account, AccountEventDTO.Event event);

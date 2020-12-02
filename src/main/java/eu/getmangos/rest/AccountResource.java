@@ -8,6 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -20,7 +21,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
-import eu.getmangos.dto.srp.ServerCredentialsDTO;
 
 public interface AccountResource {
 
@@ -47,21 +47,22 @@ public interface AccountResource {
     @GET
     @Path("v1/accounts")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Retrieves all accounts",
-        description = "This API is retrieving all accounts from the database."
+    @Operation(summary = "Retrieves a list of accounts matching the search query",
+        description = "This API is retrieving the accounts matching the given search query from the database. A missing search query will return all records given the pagination."
     )
     @APIResponses(
         value = {
-            @APIResponse(responseCode = "200", description = "A list of accounts", content = @Content(
-                        mediaType = "application/json", schema = @Schema(implementation = AccountDTO.class, description = "A list of accounts")
+            @APIResponse(responseCode = "200", description = "A list of matching accounts", content = @Content(
+                        mediaType = "application/json", schema = @Schema(implementation = AccountDTO.class)
                 )
             ),
             @APIResponse(responseCode = "400", description = "Error with the request"),
-            @APIResponse(responseCode = "500", description = "An unexpected even occured")
+            @APIResponse(responseCode = "404", description = "No result found"),
+            @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
     @Tag(name = "account")
-    public Response findAllAccounts();
+    public Response findBy(@QueryParam("search") String qryString, @QueryParam("page") Integer page, @QueryParam("page_size") Integer pageSize);
 
     @POST
     @Path("v1/accounts")
