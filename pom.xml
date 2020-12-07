@@ -18,7 +18,7 @@
         <!-- MapStruct -->
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <!-- MariaDB Library -->
-        <mariadb.version>2.7.0</mariadb.version>
+        <mariadb.version>2.7.1</mariadb.version>
         <mariadb.path>${user.home}/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
         <!-- JUnit -->
         <junit.version>5.6.2</junit.version>
