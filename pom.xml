@@ -36,7 +36,7 @@
         <!-- Logback -->
         <logback.version>1.2.3</logback.version>
         <!-- Kafka -->
-        <kafka.version>2.4.0</kafka.version>
+        <kafka.version>2.6.0</kafka.version>
         <reactive.version>1.0</reactive.version>
         <rxjava.version>3.0.0</rxjava.version>
         <!-- Lombok -->
