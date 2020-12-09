@@ -25,7 +25,7 @@
         <!-- Microshed -->
         <microshed.version>0.9.1</microshed.version>
         <!-- Jakarta -->
-        <jakarta.version>8.0.0</jakarta.version>
+        <jakarta.version>9.0.0</jakarta.version>
         <javaee.version>8.0.1</javaee.version>
         <!-- Microprofile -->
         <mp.version>3.3</mp.version>
