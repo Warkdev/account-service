@@ -15,7 +15,6 @@ import eu.getmangos.dao.DAOException;
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.dto.srp.RegistrationDTO;
-import eu.getmangos.entities.Account;
 import eu.getmangos.mapper.AccountMapper;
 import eu.getmangos.rest.AccountResource;
 
@@ -29,46 +28,30 @@ public class AccountResourceService implements AccountResource {
 
     @Inject private AccountMapper mapper;
 
-    public Response findAccount(Integer id) {
+    public Response findAccount(String email) {
         logger.debug("find() entry.");
 
-        if (id == null) {
-                return Response.status(500).entity("The provided ID is null.").build();
+        if (email == null || email.isEmpty()){
+                return Response.status(400).entity("The provided email is null.").build();
         }
 
-        AccountDTO account = mapper.map(controller.find(id));
+        AccountDTO account = mapper.map(controller.searchByEmail(email));
 
         if(account == null) {
-                return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
+                return Response.status(404).entity(new MessageDTO("The provided email has no match in the database.")).build();
         }
 
         logger.debug("find() exit.");
         return Response.status(200).entity(account).build();
     }
 
-    public Response findBy(String qryString, Integer page, Integer pageSize) {
+    public Response findBy(Integer page, Integer pageSize) {
         logger.debug("findBy() entry.");
-
-        if  (page == null) {
-            page = 1;
-        }
-
-        if  (pageSize == null || pageSize < 0 || pageSize > 100) {
-            pageSize = 100;
-        }
 
         List<AccountDTO> listAccounts = new ArrayList<>();
 
         try {
-            if (qryString == null || qryString.isEmpty()) {
-                for(Account a : this.controller.findAll(page, pageSize)) {
-                    listAccounts.add(mapper.map(a));
-                }
-            } else {
-                for(Account a : this.controller.findBy(qryString, page, pageSize)) {
-                    listAccounts.add(mapper.map(a));
-                }
-            }
+            listAccounts = mapper.map(this.controller.findAll(page, pageSize));
         } catch (IllegalArgumentException iae) {
             logger.error("Error while retrieving the data from the database: "+iae.getMessage());
             return Response.status(400).entity(new MessageDTO("Something went wrong with your request, check your query filter.")).build();
@@ -90,9 +73,9 @@ public class AccountResourceService implements AccountResource {
         return Response.status(201).entity(new MessageDTO("Account has been created.")).build();
     }
 
-    public Response editAccount(Integer id, AccountDTO entity) {
+    public Response editAccount(String email, AccountDTO entity) {
         try {
-                entity.setId(id);
+                entity.setEmail(email);
                 this.controller.update(mapper.map(entity));
         } catch (DAOException daoEx) {
                 return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
@@ -102,9 +85,9 @@ public class AccountResourceService implements AccountResource {
         return Response.status(200).entity("Account has been updated.").build();
     }
 
-    public Response deleteAccount(Integer id) {
+    public Response deleteAccount(String email) {
         try {
-                this.controller.delete(id);
+                this.controller.delete(email);
         } catch (DAOException daoEx) {
                 return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {

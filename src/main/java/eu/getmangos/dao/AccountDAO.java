@@ -27,10 +27,10 @@ public interface AccountDAO {
     @Transactional
     /**
      * Delete an account in the database. This method will also delete all links with the bans for this account.
-     * @param id The ID of the account to be deleted.
+     * @param email The email of the account.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
-    public void delete(Integer id) throws DAOException;
+    public void delete(String email) throws DAOException;
 
     /**
      * Retrieves an account by its ID.

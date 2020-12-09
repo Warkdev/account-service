@@ -15,15 +15,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 
-import com.github.tennaito.rsql.jpa.JpaCriteriaQueryVisitor;
-
 import org.slf4j.Logger;
 
-import cz.jirutka.rsql.parser.RSQLParser;
-import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import cz.jirutka.rsql.parser.ast.Node;
-import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import cz.jirutka.rsql.parser.ast.RSQLVisitor;
 import eu.getmangos.dao.AccountBannedDAO;
 import eu.getmangos.dao.AccountDAO;
 import eu.getmangos.dao.DAOException;
@@ -76,6 +69,7 @@ public class AccountDAOImpl implements AccountDAO {
         logger.debug("register() exit.");
     }
 
+    @Override
     public void update(Account account) throws DAOException {
         logger.debug("update() entry.");
         if(account.getUsername().isBlank()) {
@@ -83,7 +77,7 @@ public class AccountDAOImpl implements AccountDAO {
             throw new DAOException("Username is null or empty.");
         }
         account.setUsername(account.getUsername().toUpperCase());
-        Account existing = search(account.getUsername());
+        Account existing = searchByEmail(account.getEmail());
         if(existing == null) {
             logger.debug("update() exit.");
             throw new DAOException("Account doesn't exist.");
@@ -97,10 +91,11 @@ public class AccountDAOImpl implements AccountDAO {
         logger.debug("update() exit.");
     }
 
-    public void delete(Integer id) throws DAOException {
+    @Override
+    public void delete(String email) throws DAOException {
         logger.debug("delete() entry.");
 
-        Account account = find(id);
+        Account account = searchByEmail(email);
         if(account == null) {
             logger.debug("delete() exit.");
             throw new DAOException("The account doesn't exist");
@@ -108,7 +103,7 @@ public class AccountDAOImpl implements AccountDAO {
 
         //wardenController.deleteLogsForAccount(id);
         //realmCharactersController.deleteByAccount(id);
-        accountBannedController.deleteForAccount(id);
+        accountBannedController.deleteForAccount(account.getId());
         em.remove(account);
 
         AccountEventDTO event = mapper.map(account, AccountEventDTO.Event.DELETE);
@@ -138,10 +133,10 @@ public class AccountDAOImpl implements AccountDAO {
 
     public List<Account> findBy(String qryString, Integer page, Integer pageSize) {
         logger.debug("findBy() entry.");
-        RSQLVisitor<CriteriaQuery<Account>, EntityManager> visitor = new JpaCriteriaQueryVisitor<>();
+        //RSQLVisitor<CriteriaQuery<Account>, EntityManager> visitor = new JpaCriteriaQueryVisitor<>();
 
-        CriteriaQuery<Account> query;
-        query = getCriteriaQuery(qryString, visitor);
+        CriteriaQuery<Account> query = null;
+        //query = getCriteriaQuery(qryString, visitor);
         logger.debug("Search query: "+query);
         List<Account> list = em.createQuery(query)
                                 .setFirstResult((page - 1) * pageSize)
@@ -190,21 +185,5 @@ public class AccountDAOImpl implements AccountDAO {
                                 .setFirstResult((page - 1) * pageSize)
                                 .setMaxResults(pageSize)
                                 .getResultList();
-    }
-
-    private <T> CriteriaQuery<T> getCriteriaQuery(String queryString, RSQLVisitor<CriteriaQuery<T>, EntityManager> visitor) {
-        Node rootNode;
-        CriteriaQuery<T> query;
-        Set<ComparisonOperator> operators = RSQLOperators.defaultComparisonOperators();
-        try {
-            logger.debug(String.format("Query: %s", queryString));
-            rootNode = new RSQLParser(operators, RSQLOperators.defaultUnaryOperator()).parse(queryString);
-            query = rootNode.accept(visitor, em);
-        }catch (Exception e){
-            e.printStackTrace();
-            logger.error("An error happened while executing RSQL query", e);
-            throw new IllegalArgumentException(e.getMessage());
-        }
-        return query;
     }
 }

@@ -17,11 +17,11 @@ import eu.getmangos.entities.Account;
 @Mapper(componentModel = "cdi")
 public interface AccountMapper {
 
+    @Mapping(target = "id", ignore = true)
     AccountDTO map(Account account);
 
     @Mapping(target = "v", ignore = true)
     @Mapping(target = "s", ignore = true)
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "shaPassHash", ignore = true)
     Account map(AccountDTO dto);
 
@@ -41,7 +41,7 @@ public interface AccountMapper {
     @Mapping(target = "os", ignore = true)
     @Mapping(target = "mutetime", ignore = true)
     @Mapping(target = "playerBot", ignore = true)
-    Account map(RegistrationDTO account);
+    Account map(RegistrationDTO registration);
 
     List<AccountDTO> map(List<Account> list);
 

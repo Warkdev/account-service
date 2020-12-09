@@ -14,9 +14,6 @@ import lombok.Setter;
 public class AccountDTO implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "A unique identifier of the account")
-    private int id;
-
     @Schema(description = "An username for this account")
     private String username;
 
