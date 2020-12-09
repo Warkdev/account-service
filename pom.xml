@@ -21,7 +21,7 @@
         <mariadb.version>2.7.1</mariadb.version>
         <mariadb.path>${user.home}/.m2/repository/org/mariadb/jdbc/mariadb-java-client</mariadb.path>
         <!-- JUnit -->
-        <junit.version>5.6.2</junit.version>
+        <junit.version>5.7.0</junit.version>
         <!-- Microshed -->
         <microshed.version>0.9.1</microshed.version>
         <!-- Jakarta -->
