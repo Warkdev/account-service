@@ -11,6 +11,7 @@ before_script:
   - unset _JAVA_OPTIONS
   - chmod +x scripts/travisTest.sh
   - mv scripts/liberty src/main
+  - echo "MAVEN_OPTS='-Xmx2g'" > ~/.mavenrc
 script:
   - scripts/travisTest.sh
 after_script:
