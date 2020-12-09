@@ -17,7 +17,6 @@ import eu.getmangos.entities.Account;
 @Mapper(componentModel = "cdi")
 public interface AccountMapper {
 
-    @Mapping(target = "id", ignore = true)
     AccountDTO map(Account account);
 
     @Mapping(target = "v", ignore = true)
@@ -25,8 +24,8 @@ public interface AccountMapper {
     @Mapping(target = "shaPassHash", ignore = true)
     Account map(AccountDTO dto);
 
-    @Mapping(source = "account.salt", target = "s")
-    @Mapping(source = "account.verifier", target = "v")
+    @Mapping(source = "salt", target = "s")
+    @Mapping(source = "verifier", target = "v")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "shaPassHash", ignore = true)
     @Mapping(target = "gmLevel", ignore = true)

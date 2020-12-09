@@ -48,6 +48,14 @@ public class AccountResourceService implements AccountResource {
     public Response findBy(Integer page, Integer pageSize) {
         logger.debug("findBy() entry.");
 
+        if(page <= 0) {
+            page = 1;
+        }
+
+        if(pageSize > 100) {
+            pageSize = 100;
+        }
+
         List<AccountDTO> listAccounts = new ArrayList<>();
 
         try {
