@@ -38,7 +38,7 @@
         <!-- Kafka -->
         <kafka.version>2.6.0</kafka.version>
         <reactive.version>1.0</reactive.version>
-        <rxjava.version>3.0.8</rxjava.version>
+        <rxjava.version>3.0.9</rxjava.version>
         <!-- Lombok -->
         <lombok.version>1.18.16</lombok.version>
         <!-- Commons -->
