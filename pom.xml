@@ -40,7 +40,7 @@
         <reactive.version>1.0</reactive.version>
         <rxjava.version>3.0.8</rxjava.version>
         <!-- Lombok -->
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.20</lombok.version>
         <!-- Commons -->
         <commons.version>1.7</commons.version>
         <!-- Liberty configuration -->
